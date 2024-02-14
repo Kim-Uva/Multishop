@@ -121,6 +121,7 @@ CREATE TABLE `Bodega` (
     `idUbicacion` INTEGER NOT NULL,
     `tamanno` DOUBLE NOT NULL,
     `capacidad` DOUBLE NOT NULL,
+    `seguridad` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -132,7 +133,6 @@ CREATE TABLE `BodegaProductos` (
     `idUsuario` INTEGER NOT NULL,
     `fechaRegistro` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `cantidad` INTEGER NOT NULL,
-    `seguridad` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`idBodega`, `idProducto`, `idUsuario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -160,10 +160,40 @@ CREATE TABLE `DetalleCompra` (
 
 -- CreateTable
 CREATE TABLE `Pedido` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `idEncabezadoCompra` INTEGER NOT NULL,
     `fechaPedido` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `idEstado` INTEGER NOT NULL,
+    `observaciones` VARCHAR(191) NULL,
+
+    PRIMARY KEY (`idEncabezadoCompra`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `TrasladoBodegas` (
+    `idPedido` INTEGER NOT NULL,
+    `idDestino` INTEGER NOT NULL,
+
+    PRIMARY KEY (`idPedido`, `idDestino`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `TrasladoDestino` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `idBodegaDestino` INTEGER NOT NULL,
+    `fechaRecibido` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `idEstado` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Historial` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `idBodega` INTEGER NOT NULL,
+    `idUsuarioRegistro` INTEGER NOT NULL,
+    `idProducto` INTEGER NOT NULL,
+    `fechaAjuste` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `justificacion` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -235,7 +265,28 @@ ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idEncabezadoCompra_fke
 ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEstado_fkey` FOREIGN KEY (`idEstado`) REFERENCES `Estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEncabezadoCompra_fkey` FOREIGN KEY (`idEncabezadoCompra`) REFERENCES `EncabezadoCompra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEstado_fkey` FOREIGN KEY (`idEstado`) REFERENCES `Estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idPedido_fkey` FOREIGN KEY (`idPedido`) REFERENCES `Pedido`(`idEncabezadoCompra`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idDestino_fkey` FOREIGN KEY (`idDestino`) REFERENCES `TrasladoDestino`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoDestino` ADD CONSTRAINT `TrasladoDestino_idBodegaDestino_fkey` FOREIGN KEY (`idBodegaDestino`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoDestino` ADD CONSTRAINT `TrasladoDestino_idEstado_fkey` FOREIGN KEY (`idEstado`) REFERENCES `Estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Historial` ADD CONSTRAINT `Historial_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Historial` ADD CONSTRAINT `Historial_idUsuarioRegistro_fkey` FOREIGN KEY (`idUsuarioRegistro`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Historial` ADD CONSTRAINT `Historial_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

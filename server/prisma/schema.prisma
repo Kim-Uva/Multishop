@@ -25,13 +25,16 @@ model Usuario {
   ubicacion         Ubicacion          @relation(fields: [idUbicacion], references: [idProvincia]) // Llave foranea
   bodegaProductos   BodegaProductos[]
   encabezadoCompras EncabezadoCompra[]
+
+  Historial Historial[]
 }
 
 //Estado
 model Estado {
-  id      Int      @id @default(autoincrement())
-  estado  String
-  pedidos Pedido[]
+  id              Int               @id @default(autoincrement())
+  estado          String
+  pedidos         Pedido[]
+  TrasladoDestino TrasladoDestino[]
 }
 
 //Roles
@@ -69,6 +72,8 @@ model Producto {
   foto            Foto[]
   bodegaProductos BodegaProductos[]
   detalleCompras  DetalleCompra[]
+
+  Historial Historial[]
 }
 
 model Foto {
@@ -146,11 +151,16 @@ model Bodega {
   idUbicacion     Int
   tamanno         Float
   capacidad       Float
+  seguridad       Boolean
   ubicacion       Ubicacion         @relation(fields: [idUbicacion], references: [id])
   bodegaProductos BodegaProductos[]
   detalleCompras  DetalleCompra[]
+
+  Historial       Historial[]
+  TrasladoDestino TrasladoDestino[]
 }
 
+//Tabla muchos a muchos
 model BodegaProductos {
   //Bodega
   idBodega Int
@@ -166,7 +176,6 @@ model BodegaProductos {
 
   fechaRegistro DateTime @default(now())
   cantidad      Int
-  seguridad     Boolean
 
   @@id([idBodega, idProducto, idUsuario])
 }
@@ -186,7 +195,7 @@ model DetalleCompra {
   id                 Int              @id @default(autoincrement())
   idEncabezadoCompra Int
   idProducto         Int
-  idBodega           Int
+  idBodega           Int //Bodega Origen
   cantidad           Int
   productos          Producto         @relation(fields: [idProducto], references: [id])
   encabezadoCompras  EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
@@ -194,10 +203,48 @@ model DetalleCompra {
 }
 
 model Pedido {
-  id                 Int              @id @default(autoincrement())
-  idEncabezadoCompra Int
-  fechaPedido        DateTime         @default(now())
+  idEncabezadoCompra Int               @id
+  fechaPedido        DateTime          @default(now()) //Puede ser la fecha de envio
   idEstado           Int
-  encabezadoCompras  EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
-  estadoPedido       Estado           @relation(fields: [idEstado], references: [id])
+  estadoPedido       Estado            @relation(fields: [idEstado], references: [id])
+  observaciones      String?
+  encabezadoCompras  EncabezadoCompra  @relation(fields: [idEncabezadoCompra], references: [id])
+  TrasladoBodegas    TrasladoBodegas[]
+}
+
+//Traslado tabla muchos a muchos
+model TrasladoBodegas {
+  //Pedido que abarca bodega, Usuario, detalles y mas
+  idPedido Int
+  pedidos  Pedido @relation(fields: [idPedido], references: [idEncabezadoCompra])
+
+  idDestino Int
+  destinos  TrasladoDestino @relation(fields: [idDestino], references: [id])
+
+  @@id([idPedido, idDestino])
+}
+
+model TrasladoDestino {
+  id              Int               @id @default(autoincrement())
+  idBodegaDestino Int //Bodega Destino
+  bodegas         Bodega            @relation(fields: [idBodegaDestino], references: [id])
+  fechaRecibido   DateTime          @default(now()) @updatedAt
+  idEstado        Int
+  estadoDestino   Estado            @relation(fields: [idEstado], references: [id])
+  TrasladoBodegas TrasladoBodegas[]
+}
+
+model Historial {
+  id       Int    @id @default(autoincrement())
+  idBodega Int
+  bodegas  Bodega @relation(fields: [idBodega], references: [id])
+
+  idUsuarioRegistro Int
+  UsuarioRegistro   Usuario @relation(fields: [idUsuarioRegistro], references: [id])
+
+  idProducto Int
+  productos  Producto @relation(fields: [idProducto], references: [id])
+
+  fechaAjuste   DateTime @default(now()) @updatedAt
+  justificacion String
 }

@@ -49,14 +49,16 @@ model Categoria {
   id           Int            @id @default(autoincrement())
   nombre       String
   subCategoria SubCategoria[]
+
 }
 
 model SubCategoria {
   id          Int        @id @default(autoincrement())
-  idCategoria Int
+ //   idCategoria Int
+  //  categorias         Categoria          @relation(fields: [idCategoria], references: [id]) // Llave foranea
   nombre      String
-  categoria   Categoria  @relation(fields: [idCategoria], references: [id]) // Llave foranea
   producto    Producto[]
+categorias         Categoria []
 }
 
 //Producto

@@ -46,5 +46,6 @@ module.exports.getCantonesPorProvincia = async (request, response, next) => {
      } catch (error) {
        console.error('Error al obtener distritos:', error);
        response.status(500).json({ error: 'Error al obtener distritos' });
+       response.status(500).json({ error: 'Error al obtener distritos' });
      }
    }; 

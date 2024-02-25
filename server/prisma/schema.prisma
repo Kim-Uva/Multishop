@@ -23,7 +23,7 @@ model Usuario {
   rol               Rol
   idUbicacion       Int
   ubicacion         Ubicacion          @relation(fields: [idUbicacion], references: [idProvincia]) // Llave foranea
-  bodegaProductos   BodegaProductos[]
+  bodega            Bodega[]
   encabezadoCompras EncabezadoCompra[]
 
   Historial Historial[]
@@ -41,7 +41,6 @@ model Estado {
 enum Rol {
   Administrador
   Encargado
-  Proveeedor
 }
 
 //Categoria
@@ -49,16 +48,14 @@ model Categoria {
   id           Int            @id @default(autoincrement())
   nombre       String
   subCategoria SubCategoria[]
-
 }
 
 model SubCategoria {
-  id          Int        @id @default(autoincrement())
- //   idCategoria Int
-  //  categorias         Categoria          @relation(fields: [idCategoria], references: [id]) // Llave foranea
-  nombre      String
-  producto    Producto[]
-categorias         Categoria []
+  id         Int         @id @default(autoincrement())
+  //   idCategoria Int
+  nombre     String
+  producto   Producto[]
+  categorias Categoria[]
 }
 
 //Producto
@@ -154,7 +151,9 @@ model Bodega {
   tamanno         Float
   capacidad       Float
   seguridad       Boolean
-  ubicacion       Ubicacion         @relation(fields: [idUbicacion], references: [id])
+  idUsuario       Int
+  usuario         Usuario           @relation(fields: [idUsuario], references: [id])
+  ubicacion       Ubicacion         @relation(fields: [idUbicacion], references: [id]) //Bodega tiene varios encargados
   bodegaProductos BodegaProductos[]
   detalleCompras  DetalleCompra[]
 
@@ -172,14 +171,10 @@ model BodegaProductos {
   idProducto Int
   producto   Producto @relation(fields: [idProducto], references: [id])
 
-  //Usuario
-  idUsuario Int
-  usuario   Usuario @relation(fields: [idUsuario], references: [id])
-
   fechaRegistro DateTime @default(now())
   cantidad      Int
 
-  @@id([idBodega, idProducto, idUsuario])
+  @@id([idBodega, idProducto])
 }
 
 //Compras y pedidos

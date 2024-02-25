@@ -8,6 +8,8 @@ const app = express();
 const prism = new PrismaClient();
 //---Archivos de rutas---
 const UbicacionRouter = require("./routes/UbicacionRoutes")
+const rolRouter = require("./routes/RolRoutes")
+
 
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
@@ -26,6 +28,7 @@ app.use(
 );
 //---- Definir rutas recordar actualizar ----
 app.use('/ubicacion/', UbicacionRouter)
+app.use('/rol/', rolRouter)
 
 
 

@@ -12,9 +12,7 @@ const main = async() =>{
             data: categoria 
         });
 
-
         //Subcategorias 
-         //Computadoras
         await prisma.subCategoria.create({
             data: {
                 nombre:'Dell',
@@ -82,7 +80,7 @@ const main = async() =>{
             
         });
 
-        //Telefonos
+
         await prisma.subCategoria.create({
             data: {
                 nombre:'Samsung',
@@ -139,7 +137,6 @@ const main = async() =>{
             
         });
 
-        //Pantallas
              
         await prisma.subCategoria.create({
             data: {

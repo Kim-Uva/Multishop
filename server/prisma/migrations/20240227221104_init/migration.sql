@@ -7,7 +7,7 @@ CREATE TABLE `Usuario` (
     `correo` VARCHAR(191) NOT NULL,
     `contrasenna` VARCHAR(191) NOT NULL,
     `fechaRegistro` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `rol` ENUM('Administrador', 'Encargado', 'Proveeedor') NOT NULL,
+    `rol` ENUM('Administrador', 'Encargado') NOT NULL,
     `idUbicacion` INTEGER NOT NULL,
 
     UNIQUE INDEX `Usuario_correo_key`(`correo`),
@@ -33,7 +33,6 @@ CREATE TABLE `Categoria` (
 -- CreateTable
 CREATE TABLE `SubCategoria` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `idCategoria` INTEGER NOT NULL,
     `nombre` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -45,9 +44,10 @@ CREATE TABLE `Producto` (
     `codigoProducto` VARCHAR(191) NOT NULL,
     `nombre` VARCHAR(191) NOT NULL,
     `descripcion` VARCHAR(191) NOT NULL,
-    `idSubCategoria` INTEGER NOT NULL,
     `stock` INTEGER NOT NULL,
     `precio` DECIMAL(10, 2) NOT NULL,
+    `estadoProducto` BOOLEAN NOT NULL,
+    `idSubCategoria` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -122,12 +122,13 @@ CREATE TABLE `Bodega` (
     `tamanno` DOUBLE NOT NULL,
     `capacidad` DOUBLE NOT NULL,
     `seguridad` BOOLEAN NOT NULL,
+    `idUsuario` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `BodegaProductos` (
+CREATE TABLE `Inventario` (
     `idBodega` INTEGER NOT NULL,
     `idProducto` INTEGER NOT NULL,
     `idUsuario` INTEGER NOT NULL,
@@ -138,11 +139,23 @@ CREATE TABLE `BodegaProductos` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Proveedor` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `identificacion` INTEGER NOT NULL,
+    `nombreProveedor` VARCHAR(191) NOT NULL,
+    `idUbicacion` INTEGER NOT NULL,
+    `correoElectronico` VARCHAR(191) NOT NULL,
+    `telefono` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `EncabezadoCompra` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `fechaCompra` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `idUsuarioProveedor` INTEGER NOT NULL,
-    `idUsuarioRegistro` INTEGER NOT NULL,
+    `idProveedor` INTEGER NOT NULL,
+    `idUsuario` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -169,11 +182,24 @@ CREATE TABLE `Pedido` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `TrasladoBodegas` (
+CREATE TABLE `TrasladoOrigen` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `idBodega` INTEGER NOT NULL,
     `idPedido` INTEGER NOT NULL,
-    `idDestino` INTEGER NOT NULL,
+    `idEstado` INTEGER NOT NULL,
+    `fechaSalida` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`idPedido`, `idDestino`)
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `TrasladoBodegas` (
+    `idOrigen` INTEGER NOT NULL,
+    `idDestino` INTEGER NOT NULL,
+    `idUsuario` INTEGER NOT NULL,
+    `fechaRegistro` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`idOrigen`, `idDestino`, `idUsuario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -198,11 +224,17 @@ CREATE TABLE `Historial` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- AddForeignKey
-ALTER TABLE `Usuario` ADD CONSTRAINT `Usuario_idUbicacion_fkey` FOREIGN KEY (`idUbicacion`) REFERENCES `Ubicacion`(`idProvincia`) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateTable
+CREATE TABLE `_CategoriaToSubCategoria` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_CategoriaToSubCategoria_AB_unique`(`A`, `B`),
+    INDEX `_CategoriaToSubCategoria_B_index`(`B`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `SubCategoria` ADD CONSTRAINT `SubCategoria_idCategoria_fkey` FOREIGN KEY (`idCategoria`) REFERENCES `Categoria`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Usuario` ADD CONSTRAINT `Usuario_idUbicacion_fkey` FOREIGN KEY (`idUbicacion`) REFERENCES `Ubicacion`(`idProvincia`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Producto` ADD CONSTRAINT `Producto_idSubCategoria_fkey` FOREIGN KEY (`idSubCategoria`) REFERENCES `SubCategoria`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -241,19 +273,28 @@ ALTER TABLE `Barrio` ADD CONSTRAINT `Barrio_idDistrito_fkey` FOREIGN KEY (`idDis
 ALTER TABLE `Barrio` ADD CONSTRAINT `Barrio_id_fkey` FOREIGN KEY (`id`) REFERENCES `Ubicacion`(`idBarrio`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Bodega` ADD CONSTRAINT `Bodega_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `Bodega` ADD CONSTRAINT `Bodega_idUbicacion_fkey` FOREIGN KEY (`idUbicacion`) REFERENCES `Ubicacion`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BodegaProductos` ADD CONSTRAINT `BodegaProductos_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BodegaProductos` ADD CONSTRAINT `BodegaProductos_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `BodegaProductos` ADD CONSTRAINT `BodegaProductos_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idUsuarioProveedor_fkey` FOREIGN KEY (`idUsuarioProveedor`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Proveedor` ADD CONSTRAINT `Proveedor_idUbicacion_fkey` FOREIGN KEY (`idUbicacion`) REFERENCES `Ubicacion`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idProveedor_fkey` FOREIGN KEY (`idProveedor`) REFERENCES `Proveedor`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -271,10 +312,22 @@ ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEstado_fkey` FOREIGN KEY (`idEstad
 ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEncabezadoCompra_fkey` FOREIGN KEY (`idEncabezadoCompra`) REFERENCES `EncabezadoCompra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idPedido_fkey` FOREIGN KEY (`idPedido`) REFERENCES `Pedido`(`idEncabezadoCompra`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `TrasladoOrigen` ADD CONSTRAINT `TrasladoOrigen_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoOrigen` ADD CONSTRAINT `TrasladoOrigen_idPedido_fkey` FOREIGN KEY (`idPedido`) REFERENCES `Pedido`(`idEncabezadoCompra`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoOrigen` ADD CONSTRAINT `TrasladoOrigen_idEstado_fkey` FOREIGN KEY (`idEstado`) REFERENCES `Estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idOrigen_fkey` FOREIGN KEY (`idOrigen`) REFERENCES `TrasladoOrigen`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idDestino_fkey` FOREIGN KEY (`idDestino`) REFERENCES `TrasladoDestino`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TrasladoBodegas` ADD CONSTRAINT `TrasladoBodegas_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `TrasladoDestino` ADD CONSTRAINT `TrasladoDestino_idBodegaDestino_fkey` FOREIGN KEY (`idBodegaDestino`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -290,3 +343,9 @@ ALTER TABLE `Historial` ADD CONSTRAINT `Historial_idUsuarioRegistro_fkey` FOREIG
 
 -- AddForeignKey
 ALTER TABLE `Historial` ADD CONSTRAINT `Historial_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_CategoriaToSubCategoria` ADD CONSTRAINT `_CategoriaToSubCategoria_A_fkey` FOREIGN KEY (`A`) REFERENCES `Categoria`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_CategoriaToSubCategoria` ADD CONSTRAINT `_CategoriaToSubCategoria_B_fkey` FOREIGN KEY (`B`) REFERENCES `SubCategoria`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -26,7 +26,7 @@ model Usuario {
   bodega            Bodega[]
   encabezadoCompras EncabezadoCompra[]
   inventario        Inventario[]
-trasladoBodegas TrasladoBodegas[]
+  trasladoBodegas   TrasladoBodegas[]
 
   Historial Historial[]
 }
@@ -36,9 +36,8 @@ model Estado {
   id              Int               @id @default(autoincrement())
   estado          String
   pedidos         Pedido[]
-  TrasladoDestino TrasladoDestino[]  
-  TrasladoOrigen TrasladoOrigen[]
-
+  TrasladoDestino TrasladoDestino[]
+  TrasladoOrigen  TrasladoOrigen[]
 }
 
 //Roles
@@ -164,9 +163,8 @@ model Bodega {
   detalleCompras DetalleCompra[]
 
   Historial       Historial[]
-  TrasladoOrigen TrasladoOrigen[]
-    TrasladoDestino TrasladoDestino[]
-
+  TrasladoOrigen  TrasladoOrigen[]
+  TrasladoDestino TrasladoDestino[]
 }
 
 //Tabla muchos a muchos
@@ -217,7 +215,7 @@ model DetalleCompra {
   id                 Int              @id @default(autoincrement())
   idEncabezadoCompra Int
   idProducto         Int
-  idBodega           Int 
+  idBodega           Int
   cantidad           Int
   productos          Producto         @relation(fields: [idProducto], references: [id])
   encabezadoCompras  EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
@@ -225,43 +223,41 @@ model DetalleCompra {
 }
 
 model Pedido {
-  idEncabezadoCompra Int               @id
-  fechaPedido        DateTime          @default(now()) //Puede ser la fecha de envio
+  idEncabezadoCompra Int              @id
+  fechaPedido        DateTime         @default(now()) //Puede ser la fecha de envio
   idEstado           Int
-  estadoPedido       Estado            @relation(fields: [idEstado], references: [id])
+  estadoPedido       Estado           @relation(fields: [idEstado], references: [id])
   observaciones      String?
-  encabezadoCompras  EncabezadoCompra  @relation(fields: [idEncabezadoCompra], references: [id])
-  trasladoOrigen    TrasladoOrigen[]
+  encabezadoCompras  EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
+  trasladoOrigen     TrasladoOrigen[]
 }
 
 //Tabla origen
-model TrasladoOrigen{
-  id                 Int              @id @default(autoincrement())
-    idBodega           Int //Bodega Origen
-  bodegas            Bodega           @relation(fields: [idBodega], references: [id])
- idPedido Int
-  pedidos  Pedido @relation(fields: [idPedido], references: [idEncabezadoCompra])
-   idEstado        Int
-  estadoDestino   Estado            @relation(fields: [idEstado], references: [id])
+model TrasladoOrigen {
+  id            Int    @id @default(autoincrement())
+  idBodega      Int //Bodega Origen
+  bodegas       Bodega @relation(fields: [idBodega], references: [id])
+  idPedido      Int
+  pedidos       Pedido @relation(fields: [idPedido], references: [idEncabezadoCompra])
+  idEstado      Int
+  estadoDestino Estado @relation(fields: [idEstado], references: [id])
 
-  fechaSalida       DateTime          @default(now()) //Puede ser la fecha de envio
-trasladoBodegas TrasladoBodegas[]
-
+  fechaSalida     DateTime          @default(now()) //Puede ser la fecha de envio
+  trasladoBodegas TrasladoBodegas[]
 }
 
 //Traslado tabla muchos a muchos
 model TrasladoBodegas {
-
-idOrigen Int
-  origen  TrasladoOrigen @relation(fields: [idOrigen], references: [id])
+  idOrigen Int
+  origen   TrasladoOrigen @relation(fields: [idOrigen], references: [id])
 
   idDestino Int
   destinos  TrasladoDestino @relation(fields: [idDestino], references: [id])
-  
-  idUsuario      Int
-  usuario        Usuario         @relation(fields: [idUsuario], references: [id])
- 
-  fechaRegistro   DateTime          @default(now()) @updatedAt
+
+  idUsuario Int
+  usuario   Usuario @relation(fields: [idUsuario], references: [id])
+
+  fechaRegistro DateTime @default(now()) @updatedAt
 
   @@id([idOrigen, idDestino, idUsuario])
 }

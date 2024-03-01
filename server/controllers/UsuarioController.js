@@ -30,6 +30,12 @@ module.exports.create = async (request, response, next) => {
       apellidos: body.apellidos,
       correo: body.correo,
       contrasenna: body.contrasenna,
+
+      rol:{
+        connect: body.rol
+      }
+
+      
     },
   });
   response.json(nuevoUsuario);

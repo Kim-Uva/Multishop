@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 module.exports.get = async (request, response, next) => {
   let listaRoles = [];
   let consecutivo = 0;
+  let Hola = 0;
   for (let element in Rol) {
     consecutivo++;
     switch (element) {
@@ -13,6 +14,7 @@ module.exports.get = async (request, response, next) => {
         listaRoles.unshift({
           ["id"]: consecutivo,
           ["nombre"]: element,
+
         });
         break;
       case Rol.Encargado:

@@ -33,9 +33,11 @@ module.exports.create = async (request, response, next) => {
 
       rol:{
         connect: body.rol
-      }
+      },
 
-      
+      bodega:{
+        connect:body.bodega
+      }
     },
   });
   response.json(nuevoUsuario);

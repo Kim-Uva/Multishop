@@ -5,28 +5,37 @@ const prisma = new PrismaClient();
 
 module.exports.get = async (request, response, next) => {
   let listaRoles = [];
-  for (let element in Rol) {
+  let consecutivo = 0;
+    
+    for (let element in Rol) {
+      consecutivo++;
     switch (element) {
       case Rol.Administrador:
         listaRoles.unshift({
-          ["id"]: element,
-          ["nombre"]: "Administrador",
+          ["id"]: consecutivo,
+          ["nombre"]: element,
+
         });
         break;
       case Rol.Encargado:
         listaRoles.unshift({
-          ["id"]: element,
-          ["nombre"]: "Encargado",
+
+
+          ["id"]: consecutivo,
+          ["nombre"]: element,
         });
         break;
       default:
-        listaRoles.unshift({ ["id"]: Rol.Encargado, ["nombre"]: "Encargado" });
+        listaRoles.unshift({ ["id"]: consecutivo, ["nombre"]: "Cliente" });
         break;
     }
   }
 
   response.json(listaRoles);
+  
 };
+
+
 module.exports.getById = async (request, response, next) => {
   let id = request.params.id;
   let nombre = "";

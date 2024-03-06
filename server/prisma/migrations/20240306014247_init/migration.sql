@@ -106,6 +106,7 @@ CREATE TABLE `Proveedor` (
     `correoElectronico` VARCHAR(191) NOT NULL,
     `telefono` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Proveedor_correoElectronico_key`(`correoElectronico`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

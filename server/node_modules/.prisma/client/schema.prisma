@@ -16,11 +16,12 @@ model Usuario {
   id                  Int                @id @default(autoincrement())
   nombre              String
   apellidos           String
-  correo              String             @unique
+  correo              String
   contrasenna         String
   fechaRegistro       DateTime           @default(now())
   rol                 Rol                @default(Encargado)
   idBodega            Int?
+  estado              Boolean            @default(false)
   encabezadoCompras   EncabezadoCompra[]
   Traslado            Traslado[]
   Historial           Historial[]
@@ -86,13 +87,13 @@ model Foto {
 
 //Ubicaciones
 model Ubicacion {
-  id          Int         @id @default(autoincrement())
-  idProvincia Int
-  idCanton    Int
-  idDistrito  Int
+  id              Int         @id @default(autoincrement())
+  idProvincia     Int
+  idCanton        Int
+  idDistrito      Int
   direccionExacta String?
-  proveedor   Proveedor[]
-  bodega      Bodega[]
+  proveedor       Proveedor[]
+  bodega          Bodega[]
   // provincia   Provincia[]
   // cantones    Canton[]
   // distritos   Distrito[]
@@ -183,7 +184,7 @@ model Proveedor {
   identificacion    Int
   nombreProveedor   String
   idUbicacion       Int
-  correoElectronico String @unique
+  correoElectronico String             @unique
   telefono          Int
   encabezadoCompra  EncabezadoCompra[]
   ubicacion         Ubicacion          @relation(fields: [idUbicacion], references: [id]) // Llave foranea
@@ -216,7 +217,7 @@ model Pedido {
   idEncabezadoCompra Int              @id
   idEstado           Int
   observaciones      String?
-  fechaPedido        DateTime         @default(now()) 
+  fechaPedido        DateTime         @default(now())
   estadoPedido       Estado           @relation(fields: [idEstado], references: [id])
   encabezadoCompra   EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
   // trasladoOrigen     TrasladoOrigen[]
@@ -229,7 +230,7 @@ model Pedido {
 model Traslado {
   id              Int      @id @default(autoincrement())
   idBodegaOrigen  Int //Bodega Origen
-  idBodegaDestino Int//Bodega Destino
+  idBodegaDestino Int //Bodega Destino
   idUsuario       Int?
   idProducto      Int
   cantidad        Int
@@ -291,7 +292,7 @@ model Historial {
   idProducto        Int
   justificacion     String
   fechaAjuste       DateTime @default(now()) @updatedAt
-  producto        Producto @relation(fields: [idProducto], references: [id])
-  bodega          Bodega   @relation(fields: [idBodega], references: [id])
-  usuarioRegistro Usuario  @relation(fields: [idUsuarioRegistro], references: [id])
+  producto          Producto @relation(fields: [idProducto], references: [id])
+  bodega            Bodega   @relation(fields: [idBodega], references: [id])
+  usuarioRegistro   Usuario  @relation(fields: [idUsuarioRegistro], references: [id])
 }

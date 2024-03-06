@@ -1,5 +1,6 @@
 import{PrismaClient} from "@prisma/client";
 import { categoria } from "./seeds/categoria";
+import { usuarios } from "./seeds/usuario";
 
 
 
@@ -7,6 +8,11 @@ const prisma= new PrismaClient();
 
 const main = async() =>{
     try{
+        //Llamar a usuarios
+        await prisma.usuario.createMany({
+            data: usuarios
+        });
+
         //Llamar a las categorias
         await prisma.categoria.createMany({
             data: categoria 

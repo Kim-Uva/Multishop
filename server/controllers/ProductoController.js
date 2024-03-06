@@ -25,9 +25,12 @@ module.exports.getById = async (request, response, next) => {
 module.exports.create = async (request, response, next) => {
     let body = request.body;
 
+    //Generar el SKU
+ 
+
     const nuevoProducto = await prisma.producto.create({
         data: {
-            codigoProducto: body.codigoProducto,
+            codigoProducto: SKU,
             nombre: body.nombre,
             descripcion: body.descripcion,
             stock: body.stock,
@@ -35,7 +38,10 @@ module.exports.create = async (request, response, next) => {
             estadoProducto: body.estadoProducto,
             idSubCategoria: body.idSubCategoria
         },
+        
     });
+
+    
 
     response.json(nuevoProducto);
 };

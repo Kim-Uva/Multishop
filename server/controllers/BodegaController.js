@@ -1,14 +1,14 @@
-
-const { PrismaClient, Rol } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const prisma = new PrismaClient();
 
 module.exports.get = async (request, response, next) => {
     const Bodega = await prisma.bodega.findMany({
-        orderBy: {
-            nombre: 'asc'
-        }
+      include: {
+        usuario: true,
+        ubicacion:true
+      }
+
     });
     response.json(Bodega);
 };
@@ -20,6 +20,10 @@ module.exports.getById = async (request, response, next) => {
         where: {
             id: idBodega,
         },
+        include: {
+          usuario: true,
+          ubicacion:true
+        }
 
     });
     response.json(Bodega);
@@ -33,10 +37,24 @@ module.exports.create = async (request, response, next) => {
     const nuevoBodega = await prisma.bodega.create({
         data: {
             nombre: body.nombre,
-            idUbicacion: body.idUbicacion,
             tamanno: body.tamanno,
             capacidad: body.capacidad,
-            seguridad: body.seguridad
+            seguridad: body.seguridad,
+            
+            usuario:{
+              connect: body.usuario
+            },
+
+            // Crear la ubicación al mismo tiempo
+            ubicacion: {
+              create: {
+                idProvincia: body.ubicacion.idProvincia,
+                idCanton: body.ubicacion.idCanton,
+                idDistrito: body.ubicacion.idDistrito,
+                direccionExacta: body.ubicacion.direccionExacta
+              }
+            
+        },
         },
     });
 
@@ -49,17 +67,45 @@ module.exports.update = async (request, response, next) => {
         let bodega = request.body;
         let idBodega = parseInt(request.params.id);
 
+
+        const bodegaAnterior = await prisma.bodega.findUnique({
+          where: { id: idBodega },
+          include: {
+            usuario: {
+              select:{
+                id:true
+              }
+            }
+          }
+        });
+
         const actualizarBodega = await prisma.bodega.update({
             where: {
-                id: idBodega
+                id: idBodega,
+
             },
 
             data: {
                 nombre: bodega.nombre,
-                idUbicacion: bodega.idUbicacion,
                 tamanno: bodega.tamanno,
                 capacidad: bodega.capacidad,
-                seguridad: bodega.seguridad
+                seguridad: bodega.seguridad,
+                
+                ubicacion:{
+                  update:{
+                    idProvincia: bodega.ubicacion.idProvincia,
+                    idCanton: bodega.ubicacion.idCanton,
+                    idDistrito: bodega.ubicacion.idDistrito,
+                    direccionExacta: bodega.ubicacion.direccionExacta
+                    
+                  }
+
+                },
+
+                usuario:{
+                  disconnect: bodegaAnterior.usuario,
+                  connect: bodega.usuario,
+                }
             },
         });
 
@@ -75,6 +121,7 @@ module.exports.update = async (request, response, next) => {
 //Eliminar bodega
 module.exports.delete = async (request, response, next) => {
     let idBodega = parseInt(request.params.id);
+
 
     await prisma.bodega.delete({
         where: {

@@ -52,6 +52,7 @@ module.exports.getDistritoporCanton = async (request, response, next) => {
 };
 
 
+
 //Crear Ubicación
 module.exports.create = async (request, response, next) => {
   let body = request.body;

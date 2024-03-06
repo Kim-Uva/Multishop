@@ -47,4 +47,23 @@ export const usuarios = [
         rol: Rol.Encargado,
         estado: true
     },
+
+    {
+        nombre: "Roberto",
+        apellidos: "Barrantes",
+        correo: "Rbar@yahoo.com",
+        contrasenna: "barra",
+        rol: Rol.Encargado,
+        estado: true
+    },
+
+    
+    {
+        nombre: "Paola",
+        apellidos: "Moya",
+        correo: "moya@yahoo.com",
+        contrasenna: "Paola",
+        rol: Rol.Encargado,
+        estado: true
+    },
 ]

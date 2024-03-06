@@ -94,46 +94,9 @@ model Ubicacion {
   direccionExacta String?
   proveedor       Proveedor[]
   bodega          Bodega[]
-  // provincia   Provincia[]
-  // cantones    Canton[]
-  // distritos   Distrito[]
-  //barrios     Barrio[]
+
 }
 
-// model Provincia {
-//   id       Int      @id
-//   nombre   String
-//   cantones Canton[]
-
-//   ubicacion Ubicacion @relation(fields: [id], references: [idProvincia]) // Llave foranea
-// }
-
-// model Canton {
-//   id          Int       @id
-//   idProvincia Int
-//   nombre      String
-//   provincias  Provincia @relation(fields: [idProvincia], references: [id]) // Llave foranea
-//   ubicacion   Ubicacion @relation(fields: [id], references: [idCanton]) // Llave foranea
-
-//   distritos Distrito[]
-// }
-
-// model Distrito {
-//   id        Int       @id
-//   idCanton  Int
-//   nombre    String
-//   cantones  Canton    @relation(fields: [idCanton], references: [id]) // Llave foranea
-//   ubicacion Ubicacion @relation(fields: [id], references: [idDistrito]) // Llave foranea
-
-//   barrios Barrio[]
-
-// model Barrio {
-//   id          Int    @id @default(autoincrement())
-//   idDistrito  Int
-//   nombre      String
-//   distritos  Distrito  @relation(fields: [idDistrito], references: [id])
-//   ubicacion  Ubicacion @relation(fields: [id], references: [idBarrio])
-// }
 
 //Bodegas
 model Bodega {
@@ -145,7 +108,7 @@ model Bodega {
   seguridad       Boolean
   usuario         Usuario[] // Bodega tiene varios encargados
   inventario      Inventario[]
-  detalleCompra   DetalleCompra[]
+  detalleCompra   DetalleCompra[] 
   Historial       Historial[]
   TrasladoOrigen  Traslado[]      @relation("idBodegaOrigen")
   TrasladoDestino Traslado[]      @relation("idBodegaDestino")

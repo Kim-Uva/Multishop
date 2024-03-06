@@ -1,8 +1,9 @@
-const express=require('express');
-const router= express.Router();
+const express = require('express');
+const router = express.Router();
 
 //Controlador
-const rolController =require('../controllers/RolController');
+const rolController = require('../controllers/RolController');
+
 
 router.get("/", rolController.get);
 

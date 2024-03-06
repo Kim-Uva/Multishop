@@ -1,11 +1,25 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient, Rol } = require("@prisma/client");
+
+
 const prisma = new PrismaClient();
 
 module.exports.get = async (request, response, next) => {
-    const bodegas = await prisma.bodega.findMany({
-      orderBy: {
-        nombre: "asc",
-      },
+    const Bodega = await prisma.bodega.findMany({
+        orderBy: {
+            nombre: 'asc'
+        }
     });
-    response.json(bodegas);
-  };
+    response.json(Bodega);
+};
+
+
+module.exports.getById = async (request, response, next) => {
+    let idBodega = parseInt(request.params.id)
+    const Bodega = await prisma.bodega.findUnique({
+        where: {
+            id: idBodega,
+        },
+
+    });
+    response.json(Bodega);
+};

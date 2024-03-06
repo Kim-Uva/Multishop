@@ -9,7 +9,7 @@ const prism = new PrismaClient();
 //---Archivos de rutas---
 const UbicacionRouter = require("./routes/UbicacionRoutes")
 const rolRouter = require("./routes/RolRoutes")
-const bodegaRouter = require("./routes/BodegaRoutes")
+const usuarioRouter = require("./routes/UsuarioRoute")
 
 
 // Acceder a la configuracion del archivo .env
@@ -30,7 +30,7 @@ app.use(
 //---- Definir rutas recordar actualizar ----
 app.use('/ubicacion/', UbicacionRouter)
 app.use('/rol/', rolRouter)
-app.use('/bodega/', bodegaRouter)
+app.use('/usuario/', usuarioRouter)
 
 
 

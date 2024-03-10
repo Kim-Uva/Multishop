@@ -26,7 +26,7 @@ model Usuario {
   Traslado            Traslado[]
   Historial           Historial[]
   invUsuarioRegistro  Inventario[]       @relation("idUsuarioRegistro")
-  invUsuarioActualizo Inventario[]      @relation("idUsuarioActualizo")
+  invUsuarioActualizo Inventario[]       @relation("idUsuarioActualizo")
   bodega              Bodega?            @relation(fields: [idBodega], references: [id])
 }
 
@@ -63,22 +63,22 @@ model SubCategoria {
 
 //Producto
 model Producto {
-  id             Int          @id @default(autoincrement())
+  id             Int             @id @default(autoincrement())
   codigoProducto String? //SKU
   nombre         String
   descripcion    String
   stock          Int
-  precio         Decimal      @db.Decimal(10, 2)
+  precio         Decimal         @db.Decimal(10, 2)
   estadoProducto Boolean // Campo adicional faltante, puede ser nuevo o usado
   idCategoria    Int
-  categoria       Categoria     @relation(fields: [idCategoria], references: [id])
-  idSubCategoria  Int
-  foto            Foto[]
-  invProductos Inventario[]
-  detalleCompras  DetalleCompra[]
-  Historial       Historial[]
-  Traslado        Traslado[]
-  subCategorias   SubCategoria    @relation(fields: [idSubCategoria], references: [id]) // Llave foranea
+  categoria      Categoria       @relation(fields: [idCategoria], references: [id])
+  idSubCategoria Int
+  foto           Foto[]
+  invProductos   Inventario[]
+  detalleCompras DetalleCompra[]
+  Historial      Historial[]
+  Traslado       Traslado[]
+  subCategorias  SubCategoria    @relation(fields: [idSubCategoria], references: [id]) // Llave foranea
 }
 
 model Foto {

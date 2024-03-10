@@ -50,6 +50,7 @@ model Categoria {
   id           Int            @id @default(autoincrement())
   nombre       String
   subCategoria SubCategoria[]
+  producto     Producto[]
 }
 
 model SubCategoria {
@@ -62,13 +63,15 @@ model SubCategoria {
 
 //Producto
 model Producto {
-  id              Int             @id @default(autoincrement())
-  codigoProducto  String //SKU
-  nombre          String
-  descripcion     String
-  stock           Int
-  precio          Decimal         @db.Decimal(10, 2)
-  estadoProducto  Boolean // Campo adicional faltante, puede ser nuevo o usado
+  id             Int          @id @default(autoincrement())
+  codigoProducto String? //SKU
+  nombre         String
+  descripcion    String
+  stock          Int
+  precio         Decimal      @db.Decimal(10, 2)
+  estadoProducto Boolean // Campo adicional faltante, puede ser nuevo o usado
+  idCategoria    Int
+  categoria       Categoria     @relation(fields: [idCategoria], references: [id])
   idSubCategoria  Int
   foto            Foto[]
   bodegaProductos Inventario[]
@@ -94,9 +97,7 @@ model Ubicacion {
   direccionExacta String?
   proveedor       Proveedor[]
   bodega          Bodega[]
-
 }
-
 
 //Bodegas
 model Bodega {
@@ -108,7 +109,7 @@ model Bodega {
   seguridad       Boolean
   usuario         Usuario[] // Bodega tiene varios encargados
   inventario      Inventario[]
-  detalleCompra   DetalleCompra[] 
+  detalleCompra   DetalleCompra[]
   Historial       Historial[]
   TrasladoOrigen  Traslado[]      @relation("idBodegaOrigen")
   TrasladoDestino Traslado[]      @relation("idBodegaDestino")

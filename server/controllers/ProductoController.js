@@ -7,6 +7,11 @@ module.exports.get = async (request, response, next) => {
     orderBy: {
       nombre: "asc",
     },
+    include:{
+      categoria:true,
+      subCategorias:true,
+      invProductos:true,
+    }
   });
   response.json(productos);
 };
@@ -16,6 +21,7 @@ module.exports.getById = async (request, response, next) => {
   const productos = await prisma.producto.findUnique({
     where: {
       id: idProducto,
+      
     },
   });
   response.json(productos);
@@ -25,24 +31,7 @@ module.exports.getById = async (request, response, next) => {
 module.exports.create = async (request, response, next) => {
   let body = request.body;
 
-  const categorianom = await prisma.categoria.findUnique({
-    where: {
-      id: body.idCategoria,
-    },
-  });
-
-  const subCategorianom = await prisma.subCategoria.findUnique({
-    where: {
-      id: body.idSubCategoria,
-    },
-  });
-
-  //Generar el SKU
-  let nombreSubCategoria = subCategorianom.nombre;
-  let nombreCategoria = categorianom.nombre;
-
-  let categoriaCod = nombreCategoria.substring(0, 3).toUpperCase();
-  let subCategoriaCod = nombreSubCategoria.substring(0, 3).toUpperCase();
+  
 
   const nuevoProducto = await prisma.producto.create({
     data: {
@@ -53,9 +42,41 @@ module.exports.create = async (request, response, next) => {
       estadoProducto: body.estadoProducto,
       idCategoria: body.idCategoria,
       idSubCategoria: body.idSubCategoria,
+
+      invProductos:{
+        create:{
+          
+            cantidadMinima: body.invProductos.cantidadMinima,
+            cantidadMaxima: body.invProductos.cantidadMaxima,
+            cantidad: body.invProductos.cantidad,
+
+            idBodega: body.invProductos.idBodega,
+            idUsuarioRegistro: body.invProductos.idUsuarioRegistro,
+            idUsuarioActualizo: body.invProductos.idUsuarioRegistro,
+          
+        }
+      }
     },
   });
 
+  const categorianom = await prisma.categoria.findUnique({
+    where: {
+      id: nuevoProducto.idCategoria,
+    },
+  });
+
+  const subCategorianom = await prisma.subCategoria.findUnique({
+    where: {
+      id: nuevoProducto.idSubCategoria,
+    }, 
+  });
+
+  //Generar el SKU
+  let nombreSubCategoria = subCategorianom.nombre;
+  let nombreCategoria = categorianom.nombre;
+
+  let categoriaCod = nombreCategoria.substring(0, 3).toUpperCase();
+  let subCategoriaCod = nombreSubCategoria.substring(0, 3).toUpperCase();
   let idCodigo = nuevoProducto.id.toString().padStart(2, "0"); // Asegura que el identificador tenga al menos 2 dígitos
 
   let SKU = `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
@@ -98,7 +119,7 @@ module.exports.update = async (request, response, next) => {
 
     let categoriaCod = nombreCategoria.substring(0, 3).toUpperCase();
     let subCategoriaCod = nombreSubCategoria.substring(0, 3).toUpperCase();
-    let idCodigo = idProducto.toString().padStart(2, "0"); // Asegura que el identificador tenga al menos 2 dígitos
+    let idCodigo = idProducto.toString().padStart(2, "0"); //  2 dígitos
 
     let SKU = `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
 
@@ -116,6 +137,19 @@ module.exports.update = async (request, response, next) => {
         estadoProducto: producto.estadoProducto,
         idCategoria: producto.idCategoria,
         idSubCategoria: producto.idSubCategoria,
+
+        invProductos:{
+          createMany:{
+            data:{
+              cantidadMinima: producto.cantidadMinima,
+              cantidadMaxima: producto.cantidadMaxima,
+              cantidad: producto.cantidad,
+  
+              idBodega: producto.idBodega,
+              idUsuarioActualizo: producto.idUsuarioActualizo,
+            }
+          }
+        }
       },
     });
 

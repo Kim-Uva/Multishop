@@ -12,6 +12,8 @@ const rolRouter = require("./routes/RolRoutes")
 const usuarioRouter = require("./routes/UsuarioRoute")
 const bodegaRouter = require("./routes/BodegaRoutes")
 const productoRouter = require("./routes/ProductoRoute")
+const inventarioRouter = require("./routes/InventarioRoutes")
+
 
 
 // Acceder a la configuracion del archivo .env
@@ -35,6 +37,7 @@ app.use('/rol/', rolRouter)
 app.use('/usuario/', usuarioRouter)
 app.use('/bodega/', bodegaRouter)
 app.use('/producto/', productoRouter)
+app.use('/inventario/', inventarioRouter)
 
 
 

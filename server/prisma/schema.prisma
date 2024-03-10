@@ -26,7 +26,7 @@ model Usuario {
   Traslado            Traslado[]
   Historial           Historial[]
   invUsuarioRegistro  Inventario[]       @relation("idUsuarioRegistro")
-  invUsuarioActualizo Inventario[]       @relation("idUsuarioActualizo")
+  invUsuarioActualizo Inventario[]      @relation("idUsuarioActualizo")
   bodega              Bodega?            @relation(fields: [idBodega], references: [id])
 }
 
@@ -74,7 +74,7 @@ model Producto {
   categoria       Categoria     @relation(fields: [idCategoria], references: [id])
   idSubCategoria  Int
   foto            Foto[]
-  bodegaProductos Inventario[]
+  invProductos Inventario[]
   detalleCompras  DetalleCompra[]
   Historial       Historial[]
   Traslado        Traslado[]
@@ -130,8 +130,8 @@ model Inventario {
   idUsuarioRegistro Int // Usuario que registra
   usuarioRegistro   Usuario @relation("idUsuarioRegistro", fields: [idUsuarioRegistro], references: [id])
 
-  idUsuarioActualizo Int // Usuario que actualiza
-  usuarioActualizo   Usuario @relation("idUsuarioActualizo", fields: [idUsuarioActualizo], references: [id])
+  idUsuarioActualizo Int? // Usuario que actualiza
+  usuarioActualizo   Usuario? @relation("idUsuarioActualizo", fields: [idUsuarioActualizo], references: [id])
 
   cantidad       Int
   cantidadMinima Int

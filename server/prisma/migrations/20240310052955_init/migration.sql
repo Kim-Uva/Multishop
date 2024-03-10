@@ -40,12 +40,13 @@ CREATE TABLE `SubCategoria` (
 -- CreateTable
 CREATE TABLE `Producto` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `codigoProducto` VARCHAR(191) NOT NULL,
+    `codigoProducto` VARCHAR(191) NULL,
     `nombre` VARCHAR(191) NOT NULL,
     `descripcion` VARCHAR(191) NOT NULL,
     `stock` INTEGER NOT NULL,
     `precio` DECIMAL(10, 2) NOT NULL,
     `estadoProducto` BOOLEAN NOT NULL,
+    `idCategoria` INTEGER NOT NULL,
     `idSubCategoria` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -178,6 +179,9 @@ CREATE TABLE `_CategoriaToSubCategoria` (
 
 -- AddForeignKey
 ALTER TABLE `Usuario` ADD CONSTRAINT `Usuario_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Producto` ADD CONSTRAINT `Producto_idCategoria_fkey` FOREIGN KEY (`idCategoria`) REFERENCES `Categoria`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Producto` ADD CONSTRAINT `Producto_idSubCategoria_fkey` FOREIGN KEY (`idSubCategoria`) REFERENCES `SubCategoria`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

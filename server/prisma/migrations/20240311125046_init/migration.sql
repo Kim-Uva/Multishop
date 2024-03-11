@@ -89,7 +89,7 @@ CREATE TABLE `Inventario` (
     `idBodega` INTEGER NOT NULL,
     `idProducto` INTEGER NOT NULL,
     `idUsuarioRegistro` INTEGER NOT NULL,
-    `idUsuarioActualizo` INTEGER NOT NULL,
+    `idUsuarioActualizo` INTEGER NULL,
     `cantidad` INTEGER NOT NULL,
     `cantidadMinima` INTEGER NOT NULL,
     `cantidadMaxima` INTEGER NOT NULL,
@@ -112,22 +112,24 @@ CREATE TABLE `Proveedor` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `EncabezadoCompra` (
+CREATE TABLE `DetalleCompra` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `fechaCompra` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `idProveedor` INTEGER NOT NULL,
-    `idUsuario` INTEGER NOT NULL,
+    `idEncabezadoCompra` INTEGER NULL,
+    `idProducto` INTEGER NOT NULL,
+    `cantidad` INTEGER NOT NULL,
+    `precio` DECIMAL(10, 2) NOT NULL,
+    `bodegaId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `DetalleCompra` (
+CREATE TABLE `EncabezadoCompra` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `idEncabezadoCompra` INTEGER NOT NULL,
-    `idProducto` INTEGER NOT NULL,
+    `fechaCompra` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `idProveedor` INTEGER NOT NULL,
+    `idUsuario` INTEGER NOT NULL,
     `idBodega` INTEGER NOT NULL,
-    `cantidad` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -202,25 +204,25 @@ ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idProducto_fkey` FOREIGN KEY
 ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idUsuarioRegistro_fkey` FOREIGN KEY (`idUsuarioRegistro`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idUsuarioActualizo_fkey` FOREIGN KEY (`idUsuarioActualizo`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Inventario` ADD CONSTRAINT `Inventario_idUsuarioActualizo_fkey` FOREIGN KEY (`idUsuarioActualizo`) REFERENCES `Usuario`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Proveedor` ADD CONSTRAINT `Proveedor_idUbicacion_fkey` FOREIGN KEY (`idUbicacion`) REFERENCES `Ubicacion`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idEncabezadoCompra_fkey` FOREIGN KEY (`idEncabezadoCompra`) REFERENCES `EncabezadoCompra`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idUsuario_fkey` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `EncabezadoCompra` ADD CONSTRAINT `EncabezadoCompra_idProveedor_fkey` FOREIGN KEY (`idProveedor`) REFERENCES `Proveedor`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idProducto_fkey` FOREIGN KEY (`idProducto`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idEncabezadoCompra_fkey` FOREIGN KEY (`idEncabezadoCompra`) REFERENCES `EncabezadoCompra`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `DetalleCompra` ADD CONSTRAINT `DetalleCompra_idBodega_fkey` FOREIGN KEY (`idBodega`) REFERENCES `Bodega`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_idEstado_fkey` FOREIGN KEY (`idEstado`) REFERENCES `Estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

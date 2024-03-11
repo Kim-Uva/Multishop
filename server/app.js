@@ -14,6 +14,9 @@ const bodegaRouter = require("./routes/BodegaRoutes")
 const productoRouter = require("./routes/ProductoRoute")
 const inventarioRouter = require("./routes/InventarioRoutes")
 const proveedorRouter = require("./routes/ProveedorRoute")
+const ordenRouter = require("./routes/OrdenRoute")
+const encabezadoRouter = require("./routes/EncabezadoRoutes")
+const pedidoRouter = require("./routes/PedidoRoute")
 
 
 
@@ -40,6 +43,9 @@ app.use('/bodega/', bodegaRouter)
 app.use('/producto/', productoRouter)
 app.use('/inventario/', inventarioRouter)
 app.use('/proveedor/', proveedorRouter)
+app.use('/orden/', ordenRouter)
+app.use('/encabezado/', encabezadoRouter)
+app.use('/pedido/', pedidoRouter)
 
 
 

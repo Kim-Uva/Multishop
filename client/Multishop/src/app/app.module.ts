@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductoModule } from './producto/producto.module';
 
 
 @NgModule({
@@ -20,8 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     CoreModule,
     ShareModule,
     HomeModule,
+    ProductoModule,
     AppRoutingModule //Siempre ir al final
-
   ],
   providers: [
     provideAnimationsAsync()

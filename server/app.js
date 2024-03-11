@@ -13,6 +13,7 @@ const usuarioRouter = require("./routes/UsuarioRoute")
 const bodegaRouter = require("./routes/BodegaRoutes")
 const productoRouter = require("./routes/ProductoRoute")
 const inventarioRouter = require("./routes/InventarioRoutes")
+const proveedorRouter = require("./routes/ProveedorRoute")
 
 
 
@@ -38,6 +39,7 @@ app.use('/usuario/', usuarioRouter)
 app.use('/bodega/', bodegaRouter)
 app.use('/producto/', productoRouter)
 app.use('/inventario/', inventarioRouter)
+app.use('/proveedor/', proveedorRouter)
 
 
 

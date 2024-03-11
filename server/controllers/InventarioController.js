@@ -89,6 +89,8 @@ module.exports.updateInventario = async (request, response, next) => {
         console.log("La cantidad está fuera del rango permitido.");
     
     }
+
+    
     const inventarioActualizado = await prisma.inventario.update({
         where: {
             idBodega: idBodega,
@@ -104,6 +106,7 @@ module.exports.updateInventario = async (request, response, next) => {
             cantidadMaxima:inventario.cantidadMaxima,
         }
     });
+
 
     response.json(inventarioActualizado);
 }

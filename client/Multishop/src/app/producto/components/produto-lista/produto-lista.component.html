@@ -1,0 +1,8 @@
+<p *ngIf="isLoading">Cargando...</p>
+<div *ngIf="!isLoading && productos">
+    <li>
+        <ul *ngFor="let producto of productos">
+        {{producto.nombre}}
+        </ul>
+    </li>
+</div>

@@ -2,20 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductoRoutingModule } from './producto-routing.module';
-import { ProdutoListaComponent } from './component/produto-lista/produto-lista.component';
-import { ProdutoDetalleComponent } from './component/produto-detalle/produto-detalle.component';
-import { ProdutoFormularioComponent } from './component/produto-formulario/produto-formulario.component';
-
+import { ProdutoListaComponent } from './components/produto-lista/produto-lista.component';
+import { ProdutoDetalleComponent } from './components/produto-detalle/produto-detalle.component';
+import { ProdutoFormularioComponent } from './components/produto-formulario/produto-formulario.component';
 
 @NgModule({
   declarations: [
     ProdutoListaComponent,
     ProdutoDetalleComponent,
-    ProdutoFormularioComponent
+    ProdutoFormularioComponent,
   ],
-  imports: [
-    CommonModule,
-    ProductoRoutingModule
-  ]
+  imports: [CommonModule, ProductoRoutingModule],
 })
-export class ProductoModule { }
+export class ProductoModule {}

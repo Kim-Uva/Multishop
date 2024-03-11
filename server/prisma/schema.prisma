@@ -155,17 +155,6 @@ model Proveedor {
 }
 
 //Compras y pedidos
-model EncabezadoCompra {
-  id            Int             @id @default(autoincrement())
-  fechaCompra   DateTime        @default(now())
-  idProveedor   Int
-  idUsuario     Int
-  usuario       Usuario         @relation(fields: [idUsuario], references: [id])
-  proveedor     Proveedor       @relation(fields: [idProveedor], references: [id])
-  detalleCompra DetalleCompra[]
-  pedido        Pedido[]
-}
-
 model DetalleCompra {
   id                 Int              @id @default(autoincrement())
   idEncabezadoCompra Int
@@ -175,6 +164,17 @@ model DetalleCompra {
   producto           Producto         @relation(fields: [idProducto], references: [id])
   encabezadoCompra   EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
   bodega             Bodega           @relation(fields: [idBodega], references: [id])
+}
+
+model EncabezadoCompra {
+  id            Int             @id @default(autoincrement())
+  fechaCompra   DateTime        @default(now())
+  idProveedor   Int
+  idUsuario     Int
+  usuario       Usuario         @relation(fields: [idUsuario], references: [id])
+  proveedor     Proveedor       @relation(fields: [idProveedor], references: [id])
+  detalleCompra DetalleCompra[]
+  pedido        Pedido[]
 }
 
 model Pedido {

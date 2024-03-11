@@ -101,19 +101,19 @@ model Ubicacion {
 
 //Bodegas
 model Bodega {
-  id              Int             @id @default(autoincrement())
-  nombre          String
-  idUbicacion     Int
-  tamanno         Float
-  capacidad       Float
-  seguridad       Boolean
-  usuario         Usuario[] // Bodega tiene varios encargados
-  inventario      Inventario[]
-  detalleCompra   DetalleCompra[]
-  Historial       Historial[]
-  TrasladoOrigen  Traslado[]      @relation("idBodegaOrigen")
-  TrasladoDestino Traslado[]      @relation("idBodegaDestino")
-  ubicacion       Ubicacion       @relation(fields: [idUbicacion], references: [id])
+  id               Int                @id @default(autoincrement())
+  nombre           String
+  idUbicacion      Int
+  tamanno          Float
+  capacidad        Float
+  seguridad        Boolean
+  usuario          Usuario[] // Bodega tiene varios encargados
+  inventario       Inventario[]
+  Historial        Historial[]
+  TrasladoOrigen   Traslado[]         @relation("idBodegaOrigen")
+  TrasladoDestino  Traslado[]         @relation("idBodegaDestino")
+  ubicacion        Ubicacion          @relation(fields: [idUbicacion], references: [id])
+  EncabezadoCompra EncabezadoCompra[]
 }
 
 //Inventario Tabla muchos a muchos
@@ -156,14 +156,14 @@ model Proveedor {
 
 //Compras y pedidos
 model DetalleCompra {
-  id                 Int              @id @default(autoincrement())
-  idEncabezadoCompra Int
+  id                 Int               @id @default(autoincrement())
+  idEncabezadoCompra Int?
   idProducto         Int
-  idBodega           Int
   cantidad           Int
-  producto           Producto         @relation(fields: [idProducto], references: [id])
-  encabezadoCompra   EncabezadoCompra @relation(fields: [idEncabezadoCompra], references: [id])
-  bodega             Bodega           @relation(fields: [idBodega], references: [id])
+  precio             Decimal           @db.Decimal(10, 2)
+  producto           Producto          @relation(fields: [idProducto], references: [id])
+  encabezadoCompra   EncabezadoCompra? @relation(fields: [idEncabezadoCompra], references: [id])
+
 }
 
 model EncabezadoCompra {
@@ -171,6 +171,8 @@ model EncabezadoCompra {
   fechaCompra   DateTime        @default(now())
   idProveedor   Int
   idUsuario     Int
+  idBodega      Int
+  bodega        Bodega          @relation(fields: [idBodega], references: [id])
   usuario       Usuario         @relation(fields: [idUsuario], references: [id])
   proveedor     Proveedor       @relation(fields: [idProveedor], references: [id])
   detalleCompra DetalleCompra[]
@@ -208,46 +210,6 @@ model Traslado {
   producto      Producto @relation(fields: [idProducto], references: [id])
 }
 
-//Tabla origen
-// model TrasladoOrigen {
-//   id            Int    @id @default(autoincrement())
-//   idBodega      Int //Bodega Origen
-//   bodega       Bodega @relation(fields: [idBodega], references: [id])
-//   idPedido      Int
-//   pedidos       Pedido @relation(fields: [idPedido], references: [idEncabezadoCompra])
-//   idEstado      Int
-//   estadoDestino Estado @relation(fields: [idEstado], references: [id])
-
-//   fechaSalida     DateTime          @default(now()) //Puede ser la fecha de envio
-//   trasladoBodegas TrasladoBodegas[]
-// }
-
-//Traslado tabla muchos a muchos
-// model TrasladoBodegas {
-//   idOrigen Int
-//   origen   TrasladoOrigen @relation(fields: [idOrigen], references: [id])
-
-//   idDestino Int
-//   destinos  TrasladoDestino @relation(fields: [idDestino], references: [id])
-
-//   idUsuario Int
-//   usuario   Usuario @relation(fields: [idUsuario], references: [id])
-
-//   fechaRegistro DateTime @default(now()) @updatedAt
-
-//   @@id([idOrigen, idDestino, idUsuario])
-// }
-
-//TablaDestino
-// model TrasladoDestino {
-//   id              Int               @id @default(autoincrement())
-//   idBodegaDestino Int //Bodega Destino
-//   bodega         Bodega            @relation(fields: [idBodegaDestino], references: [id])
-//   fechaRecibido   DateTime          @default(now()) @updatedAt
-//   idEstado        Int
-//   estadoDestino   Estado            @relation(fields: [idEstado], references: [id])
-//   TrasladoBodegas TrasladoBodegas[]
-// }
 
 model Historial {
   id                Int      @id @default(autoincrement())

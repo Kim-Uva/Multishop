@@ -6,9 +6,9 @@ const proveedorController =require('../controllers/ProveedorController');
 
 router.get('/',proveedorController.get) //Llama el metodo get de module.exports del controller
 
-//router.post('/',proveedorController.create) //Llama el metodo post de module.exports del controller
+router.post('/',proveedorController.create) //Llama el metodo post de module.exports del controller
 
-//router.put('/:id',proveedorController.update) //Llama el metodo put de module.exports del controller
+router.put('/:id',proveedorController.update) //Llama el metodo put de module.exports del controller
 
 
 

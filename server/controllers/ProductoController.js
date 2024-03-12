@@ -43,19 +43,19 @@ module.exports.create = async (request, response, next) => {
       idCategoria: body.idCategoria,
       idSubCategoria: body.idSubCategoria,
 
-      invProductos:{
-        create:{
+      // invProductos:{
+      //   create:{
           
-            cantidadMinima: body.invProductos.cantidadMinima,
-            cantidadMaxima: body.invProductos.cantidadMaxima,
-            cantidad: body.invProductos.cantidad,
+      //       cantidadMinima: body.invProductos.cantidadMinima,
+      //       cantidadMaxima: body.invProductos.cantidadMaxima,
+      //       cantidad: body.invProductos.cantidad,
 
-            idBodega: body.invProductos.idBodega,
-            idUsuarioRegistro: body.invProductos.idUsuarioRegistro,
-            idUsuarioActualizo: body.invProductos.idUsuarioRegistro,
+      //       idBodega: body.invProductos.idBodega,
+      //       idUsuarioRegistro: body.invProductos.idUsuarioRegistro,
+      //       idUsuarioActualizo: body.invProductos.idUsuarioRegistro,
           
-        }
-      }
+      //   }
+      // }
     },
   });
 
@@ -132,24 +132,23 @@ module.exports.update = async (request, response, next) => {
         codigoProducto: SKU,
         nombre: producto.nombre,
         descripcion: producto.descripcion,
-        stock: producto.stock,
         precio: producto.precio,
         estadoProducto: producto.estadoProducto,
         idCategoria: producto.idCategoria,
         idSubCategoria: producto.idSubCategoria,
 
         invProductos:{
-          createMany:{
-            data:{
-              cantidadMinima: producto.cantidadMinima,
-              cantidadMaxima: producto.cantidadMaxima,
-              cantidad: producto.cantidad,
+           createMany:{
+             data:{
+               cantidadMinima: producto.cantidadMinima,
+               cantidadMaxima: producto.cantidadMaxima,
+               cantidad: producto.cantidad,
   
-              idBodega: producto.idBodega,
-              idUsuarioActualizo: producto.idUsuarioActualizo,
-            }
-          }
-        }
+               idBodega: producto.idBodega,
+               idUsuarioActualizo: producto.idUsuarioActualizo,
+             }
+           }
+         }
       },
     });
 

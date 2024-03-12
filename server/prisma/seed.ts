@@ -671,6 +671,49 @@ const main = async () => {
         }
 
 
+
+        ///////Pedidos/////////////
+        await prisma.pedido.create({
+            data:
+            {
+                idEncabezadoCompra:1,
+                idEstado: 2,
+                observaciones:"Pedido en proceso , demorara unos dias en llegar",
+            }
+        });
+
+
+        await prisma.pedido.create({
+            data:
+            {
+                idEncabezadoCompra:2,
+                idEstado: 1,
+                observaciones:"Pedido incompleto",
+            }
+        });
+
+
+        await prisma.pedido.create({
+            data:
+            {
+                idEncabezadoCompra:3,
+                idEstado: 3,
+                observaciones:"Productos frágiles",
+            }
+        });
+
+
+
+        await prisma.pedido.create({
+            data:
+            {
+                idEncabezadoCompra:4,
+                idEstado: 3,
+                observaciones:"Revisar piezas",
+            }
+        });
+
+
     } catch (error) {
         throw error;
     }

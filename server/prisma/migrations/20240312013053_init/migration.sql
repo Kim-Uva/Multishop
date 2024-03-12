@@ -118,7 +118,6 @@ CREATE TABLE `DetalleCompra` (
     `idProducto` INTEGER NOT NULL,
     `cantidad` INTEGER NOT NULL,
     `precio` DECIMAL(10, 2) NOT NULL,
-    `bodegaId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

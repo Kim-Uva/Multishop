@@ -2,6 +2,37 @@ const { PrismaClient, Rol } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
+async function loginUser(email, password) {  
+  try {
+      // Buscar el usuario por su correo electrónico en la base de datos
+      const user = await prisma.usuario.findUnique({
+          where: {
+              correo: email,
+          },
+      });
+
+      // Si no se encuentra ningún usuario con el correo electrónico dado, retornar null
+      if (!user) {
+          return null;
+      }
+
+      // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
+      const passwordMatch = user.contrasenna === password;
+      if (!passwordMatch) {
+          return null;
+      }
+
+      // Si las credenciales son válidas, retornar el usuario
+      return user;
+  } catch (error) {
+      console.error("Error al iniciar sesión:", error); 
+      throw error;
+  }
+}
+
+module.exports = { loginUser };
+
+
 module.exports.get = async (request, response, next) => {
   const usuarios = await prisma.usuario.findMany({
     orderBy: {

@@ -1,0 +1,19 @@
+mat-card {
+    width: 15%;
+   border-radius: 20px;
+    margin: 30px ;
+    padding: 10px;
+    text-align: center;
+  }
+
+ .cards{
+    margin: 2em auto;
+justify-content: center;
+  }  
+  
+  .text-inicio{
+    margin: 2em auto;
+    text-align: center;
+    font-size: 15pt;
+    color: #ECEFF1;
+  }

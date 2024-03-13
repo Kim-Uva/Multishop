@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share/share.module';
-import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoModule } from './producto/producto.module';
+import { HomeModule } from './home/home.module';
 
 
 @NgModule({

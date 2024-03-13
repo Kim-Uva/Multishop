@@ -1,21 +1,23 @@
-<!-- <div class="login-container">
 
-    <h1>Login</h1>
+<div class="text-inicio">
+<h3>Bienvenido a Multishop</h3>
+<p>Aplicación de tecnología amigable con el ambiente.</p>
+</div>
 
-    <form>
+<div class="cards" fxLayout="row" style="display: flex">
+    
+    <mat-card mat-button [routerLink]="['/login']" routerLinkActive="link-active">
+        <img mat-card-image src="./assets/images/login.png" />
+    <mat-card-content>
+      <p>Iniciar sesión o regístrate</p>
+    </mat-card-content>
+  </mat-card>
 
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" [(ngModel)]="username">
-        </div>
+  <mat-card mat-button [routerLink]="['/producto']" routerLinkActive="link-active">
+    <img mat-card-image src="./assets/images/product.png" />
+    <mat-card-content>
+      <p>Productos</p>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" [(ngModel)]="password">
-        </div>
-
-        <button> Login</button>
-
-    </form>
-
-</div> -->

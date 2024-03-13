@@ -1,1 +1,37 @@
-<p>produto-detalle works!</p>
+@if (datos) {
+
+    <div>
+      <mat-card>
+            <mat-card-title style="display: flex; justify-content: flex-start;"><h2>{{ datos.nombre }}</h2></mat-card-title>
+            <mat-card-title style="display: flex; justify-content: flex-end;">CodigoProducto: {{ datos.codigoProducto }}</mat-card-title>
+    <mat-card-content>
+        <p>{{ datos.descripcion }}</p>
+      <p>Precio {{ datos.precio | currency : "₡" }}</p>
+
+      @if (datos.stock ==='0') {
+      <p color="warn">Stock: Agotado</p>
+      } @else {
+      <p>Stock: {{ datos.stock }}</p>
+      } @if (datos.estadoProducto === true) {
+      <p>Estado: Nuevo</p>
+      }@else {
+      <p>Estado: Usado</p> 
+     } 
+  
+     <mat-chip-listbox aria-label="Otrosdetalles"> <!--Recordar Relacion de muchos a muchos-->
+
+      @if (datos.idCategoria !== '0') {
+      <mat-chip-option color="accent" selected>Categoria: {{ datos.categoria.nombre }}</mat-chip-option>
+
+  }
+
+  @if (datos.idSubCategoria !== '0') {
+    <mat-chip-option color="accent" selected>Sub-Categoria: {{ datos.subCategorias.nombre }}</mat-chip-option>
+
+}
+    </mat-chip-listbox>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+}

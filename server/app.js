@@ -17,6 +17,8 @@ const proveedorRouter = require("./routes/ProveedorRoute")
 const ordenRouter = require("./routes/OrdenRoute")
 const encabezadoRouter = require("./routes/EncabezadoRoutes")
 const pedidoRouter = require("./routes/PedidoRoute")
+const categoriaRouter = require("./routes/CategoriaRoute")
+const subcategoria = require("./routes/SubCategoriaRoute")
 
 
 
@@ -46,6 +48,8 @@ app.use('/proveedor/', proveedorRouter)
 app.use('/orden/', ordenRouter)
 app.use('/encabezado/', encabezadoRouter)
 app.use('/pedido/', pedidoRouter)
+app.use('/categoria/', categoriaRouter)
+app.use('/subcategoria/', subcategoria)
 
 
 

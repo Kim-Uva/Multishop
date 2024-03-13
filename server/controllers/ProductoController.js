@@ -10,7 +10,6 @@ module.exports.get = async (request, response, next) => {
     include:{
       categoria:true,
       subCategorias:true,
-      invProductos:true,
     }
   });
   response.json(productos);
@@ -23,6 +22,11 @@ module.exports.getById = async (request, response, next) => {
       id: idProducto,
       
     },
+
+    include:{
+      categoria:true,
+      subCategorias:true,
+    }
   });
   response.json(productos);
 };

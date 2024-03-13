@@ -59,7 +59,7 @@ module.exports.updateDetalle = async (request, response, next) => {
 
       const calcPrecio = await prisma.producto.findUnique({
         where: {
-          id: detalle.idProducto,
+          id: detalle.idProducto, 
         },
       });
 

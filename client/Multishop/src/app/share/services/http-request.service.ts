@@ -13,6 +13,7 @@ export class HttpRequestService {
   constructor(private http: HttpClient) {
   }
 
+  
   list<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(`${this.base_url}/${endpoint}`);
   }

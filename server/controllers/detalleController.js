@@ -9,7 +9,7 @@ module.exports.getDetalle = async (request, response, next) => {
     },
   });
   response.json(detalle);
-};
+}; 
 
 module.exports.getDetalleById = async (request, response, next) => {
   let idDetalle = parseInt(request.params.id);

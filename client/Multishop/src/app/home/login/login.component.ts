@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpRequestService } from '../../share/services/http-request.service';
 import { AuthUserService } from '../../share/services/auth-user.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -11,8 +14,10 @@ import { AuthUserService } from '../../share/services/auth-user.service';
 export class LoginComponent {
   loginForm: FormGroup;
   error: string;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  datos: any;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthUserService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private httpRequest: HttpRequestService) {
     this.loginForm = this.formBuilder.group({
       correo: ['', [Validators.required, Validators.email]],
       contrasenna: ['', Validators.required]
@@ -20,22 +25,31 @@ export class LoginComponent {
   }
 
   onSubmit() {
+
     if (this.loginForm.invalid) {
       return;
     }
-    
+
     const { correo, contrasenna } = this.loginForm.value;
-    this.authService.loginUser({ correo, contrasenna }).subscribe(
-      userData => {
-        // Manejar el éxito del inicio de sesión, por ejemplo, redirigir a otra página
-        console.log('Inicio de sesión exitoso:', userData);
-        // Aquí podrías redirigir al usuario a otra página
-      },
-      error => {
-        // Manejar errores de inicio de sesión, por ejemplo, mostrar un mensaje de error al usuario
-        console.error('Error al iniciar sesión:', error);
-        this.error = 'Credenciales incorrectas. Por favor, inténtalo de nuevo.';
-      }
-    );
+
+
+    this.httpRequest.get('usuario/loginUser', correo).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+
+
+      this.datos = data
+
+
+      console.log(this.datos.contrasenna)
+    })
+    if (this.datos.contrasenna == contrasenna) {
+      localStorage.setItem("idUsuario", this.datos.id)
+      console.log("Usuario Iniciado")
+      this.router.navigate(['/producto'])
+    } else {
+      console.log("La Contrasenna es incorrecta")
+    }
+
+
+
   }
 }

@@ -9,7 +9,14 @@ export const usuarios = [
         rol: Rol.Administrador,
         estado: true
     },
-
+    {
+        nombre: "Andrey",
+        apellidos: "Jimenez Porras",
+        correo: "rajimenezp35@gmail.com",
+        contrasenna: "123456",
+        rol: Rol.Administrador,
+        estado: true
+    },
 
     {
         nombre: "Andrés",
@@ -19,7 +26,7 @@ export const usuarios = [
         rol: Rol.Encargado,
         estado: true
     },
-    
+
 
     {
         nombre: "Luis",
@@ -57,7 +64,7 @@ export const usuarios = [
         estado: true
     },
 
-    
+
     {
         nombre: "Paola",
         apellidos: "Moya",

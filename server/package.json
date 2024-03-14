@@ -24,6 +24,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@angular/animations": "^17.2.4",
     "@prisma/client": "^5.9.1",
     "axios": "^1.6.7"
   },

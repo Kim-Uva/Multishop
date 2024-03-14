@@ -2,31 +2,30 @@ const { PrismaClient, Rol } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
-async function loginUser(email, password) {  
+async function loginUser(request, response, next) {
   try {
-      // Buscar el usuario por su correo electrónico en la base de datos
-      const user = await prisma.usuario.findUnique({
-          where: {
-              correo: email,
-          },
-      });
+    let correo = request.params.id;;
 
-      // Si no se encuentra ningún usuario con el correo electrónico dado, retornar null
-      if (!user) {
-          return null;
-      }
+    console.log(correo)
+    // Buscar el usuario por su correo electrónico en la base de datos
+    const user = await prisma.usuario.findMany({
+      where: {
+        correo: correo,
+      },
+    });
 
-      // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
-      const passwordMatch = user.contrasenna === password;
-      if (!passwordMatch) {
-          return null;
-      }
+    // Si no se encuentra ningún usuario con el correo electrónico dado, retornar null
+    if (!user) {
+      return null;
+    }
+    // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
 
-      // Si las credenciales son válidas, retornar el usuario
-      return user;
+
+    // Si las credenciales son válidas, retornar el usuario
+    response.json(user[0]);
   } catch (error) {
-      console.error("Error al iniciar sesión:", error); 
-      throw error;
+    console.error("Error al iniciar sesión:", error);
+    throw error;
   }
 }
 
@@ -85,28 +84,28 @@ module.exports.create = async (request, response, next) => {
 //Actualizar Usuario
 module.exports.update = async (request, response, next) => {
   try {
-  let usuario = request.body;
-  let idUsuario = parseInt(request.params.id);
+    let usuario = request.body;
+    let idUsuario = parseInt(request.params.id);
 
-  const actualizarUsuario = await prisma.usuario.update({
-    where: {
-      id: idUsuario,
-    },
+    const actualizarUsuario = await prisma.usuario.update({
+      where: {
+        id: idUsuario,
+      },
 
-    data: {
-      nombre: usuario.nombre,
-      apellidos: usuario.apellidos,
-      correo: usuario.correo,
-      contrasenna: usuario.contrasenna,
-      estado: usuario.estado
-    },
-  });
-  response.json(actualizarUsuario);
+      data: {
+        nombre: usuario.nombre,
+        apellidos: usuario.apellidos,
+        correo: usuario.correo,
+        contrasenna: usuario.contrasenna,
+        estado: usuario.estado
+      },
+    });
+    response.json(actualizarUsuario);
 
-} catch (error) {
-  console.error('Error al actualizar el usuario:', error);
-  response.status(500).json({ error: 'Error interno del servidor' });
-}
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error);
+    response.status(500).json({ error: 'Error interno del servidor' });
+  }
 
 };
 

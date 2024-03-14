@@ -12,7 +12,7 @@ export interface producto {
   estadoProducto: boolean;
   idCategoria: number;
   categoria?: categoriaProducto;
-  idSubcategoria: number;
+  idSubCategoria: number;
   subCategorias?: subCategoriaProducto;
   foto?: foto[];
 }

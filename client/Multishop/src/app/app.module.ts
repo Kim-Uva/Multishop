@@ -9,7 +9,7 @@ import { ShareModule } from './share/share.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoModule } from './producto/producto.module';
 import { HomeModule } from './home/home.module';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -18,13 +18,20 @@ import { HomeModule } from './home/home.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    CoreModule,
+    ToastrModule.forRoot(), 
+    CoreModule, 
     ShareModule,
     HomeModule,
+
     ProductoModule,
+
+
+    
     AppRoutingModule //Siempre ir al final
+
   ],
   providers: [
+   
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

@@ -9,22 +9,32 @@ import { ShareModule } from './share/share.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoModule } from './producto/producto.module';
 import { HomeModule } from './home/home.module';
-
+import { ToastrModule } from 'ngx-toastr';
+import { ReporteGraficoComponent } from './reporte-grafico/reporte-grafico.component';
+import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
     CoreModule,
     ShareModule,
     HomeModule,
+
+    ReporteGraficoModule,
     ProductoModule,
-    AppRoutingModule //Siempre ir al final
+
+
+    AppRoutingModule,
+    //Siempre ir al final
+
   ],
   providers: [
+
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

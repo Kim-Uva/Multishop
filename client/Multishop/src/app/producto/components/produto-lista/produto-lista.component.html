@@ -4,9 +4,9 @@
 
 
   <mat-card *ngFor="let producto of productos">
-    <mat-card-title
-      ><h3>{{ producto.nombre }}</h3></mat-card-title
-    >
+    <mat-card-title>
+      <h3>{{ producto.nombre }}</h3>
+    </mat-card-title>
     <mat-card-content>
       <p>{{ producto.descripcion }}</p>
       <p>Precio {{ producto.precio | currency : "₡" }}</p>
@@ -28,17 +28,23 @@
           add_shopping_cart
         </mat-icon>
       </button>
-      <button
-        style="width: 30%"
-        mat-raised-button
-        color="primary"
-        type="button"
-        (click)="detalleProducto(producto.id)"
-      >
-        Ver más <mat-icon class="material-symbols-outlined" > info </mat-icon>
+      <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="detalleProducto(producto.id)">
+        Ver más <mat-icon class="material-symbols-outlined"> info </mat-icon>
       </button>
-    </mat-card-actions> 
+
+    </mat-card-actions>
   </mat-card>
 
 
+
+</div>
+<div class="BotonReporte">
+  <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="onImprimir()" class="boton">
+    Generar reporte Tabla <mat-icon class="material-symbols-outlined"> info </mat-icon>
+  </button>
+
+  <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="onImprimirListado()"
+    class="boton">
+    Generar reporte listado <mat-icon class="material-symbols-outlined"> info </mat-icon>
+  </button>
 </div>

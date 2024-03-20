@@ -12,11 +12,10 @@ import { HomeModule } from './home/home.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ReporteGraficoComponent } from './reporte-grafico/reporte-grafico.component';
 import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -24,19 +23,12 @@ import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
     CoreModule,
     ShareModule,
     HomeModule,
-
     ReporteGraficoModule,
     ProductoModule,
-
-
     AppRoutingModule,
     //Siempre ir al final
-
   ],
-  providers: [
-
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideAnimationsAsync()],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

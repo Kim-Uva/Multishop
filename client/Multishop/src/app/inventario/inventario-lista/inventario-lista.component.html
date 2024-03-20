@@ -1,1 +1,33 @@
-<p>inventario-lista works!</p>
+<p *ngFor="let inv of datos"></p>
+
+<!-- <div class="mat-elevation-z8">
+  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="producto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let row">{{ row.producto.nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="minima">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+      <td mat-cell *matCellDef="let row">{{ row.precio }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="maxima">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+      <td mat-cell *matCellDef="let row"></td>
+    </ng-container>
+
+    <ng-container matColumnDef="disponible">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+      <td mat-cell *matCellDef="let row"></td>
+    </ng-container>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+      class="header-row"
+    ></tr>
+
+    
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div> -->

@@ -4,6 +4,7 @@ import { HttpRequestService } from '../share/services/http-request.service';
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-reporte-grafico',
   templateUrl: './reporte-grafico.component.html',
@@ -11,19 +12,78 @@ import { Router } from '@angular/router';
 })
 export class ReporteGraficoComponent implements OnInit {
 
+  datos: any;
+  datosGrafico: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(private httpRequest: HttpRequestService, private router: Router,) {
   }
   hoy = new Date();
-  title = ("Grafico de Productos" + this.hoy.getDate() + this.hoy.getMonth() + this.hoy.getFullYear() + this.hoy.getTime());
+  title = ("Grafico de Clientes Registrados" + this.hoy.getDate() + this.hoy.getMonth() + this.hoy.getFullYear() + this.hoy.getTime());
 
 
   public chart: Chart;
   ngOnInit(): void {
+
+
+    this.httpRequest.list('usuario').pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+      this.datos = data
+      this.datos.forEach(dato => {
+        let valor = this.getMonthFromDateString(dato.fechaRegistro)
+
+        switch (valor) {
+
+          case 1:
+            this.datosGrafico[0] += 1
+            break;
+          case 2:
+            this.datosGrafico[1] += 1
+            break;
+          case 3:
+            this.datosGrafico[2] += 1
+            break;
+          case 4:
+            this.datosGrafico[3] += 1
+            break;
+          case 5:
+            this.datosGrafico[4] += 1
+            break;
+          case 6:
+            this.datosGrafico[5] += 1
+            break;
+          case 7:
+            this.datosGrafico[6] += 1
+            break;
+          case 8:
+            this.datosGrafico[7] += 1
+            break;
+          case 9:
+            this.datosGrafico[8] += 1
+            break;
+          case 10:
+            this.datosGrafico[9] += 1
+            break;
+          case 11:
+            this.datosGrafico[10] += 1
+            break;
+          case 12:
+            this.datosGrafico[11] += 1
+            break;
+
+        }
+
+      });
+    })
+
+    // Recorrer arreglo
+
+    console.log(this.datosGrafico)
+
     const data = {
       labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       datasets: [{
-        label: 'Reporte de productos agregados',
-        data: [65, 59, 80, 81, 56, 55, 40, 10, 12, 32, 12, 32],
+        label: 'Grafico de Clientes Registrados',
+        data: this.datosGrafico,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 159, 64, 0.2)',
@@ -63,13 +123,18 @@ export class ReporteGraficoComponent implements OnInit {
       },
     });
   }
+  getMonthFromDateString(dateString) {
+    const dateParts = dateString.split('-');
+    return parseInt(dateParts[1]);
+  }
   descargar() {
     html2canvas(document.body).then(canvas => {
       const contentDataURL = canvas.toDataURL('imagen/png')
       let pdf = new jsPDF('p', 'px', 'a4');
-      var width = pdf.internal.pageSize.getHeight();
-      var height = canvas.height * width / canvas.width;
+
       pdf.addImage(contentDataURL, 'PNG', 0, 0, 450, 250)
+
+      let hola;
       pdf.save(this.title + '.pdf');
 
 

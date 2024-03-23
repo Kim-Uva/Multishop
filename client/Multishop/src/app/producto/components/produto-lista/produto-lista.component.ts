@@ -61,10 +61,9 @@ export class ProdutoListaComponent implements OnInit {
     this.ImpresionService.imprimir(encabezado, cuerpo, "Tabla de productos", true);
   }
   onImprimirListado() {
-    const encabezado = ["Id Producto", "Nombre", "Descripcion", "Precio"]
     const cuerpo = this.productos;
     console.log(cuerpo);
-    this.ImpresionService.imprimirListado(encabezado, cuerpo, "Listado de productos", true);
+    this.ImpresionService.imprimirListado(cuerpo, "Listado de productos", true);
   }
 
   ngOnDestroy() {

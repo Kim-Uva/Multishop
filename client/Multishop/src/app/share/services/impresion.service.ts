@@ -16,6 +16,7 @@ export class ImpresionService {
       unit: "px",
       format: 'letter'
     });
+    
     const productos = cuerpo.map(prod => {
       return [
         prod.id,
@@ -36,12 +37,10 @@ export class ImpresionService {
     if (guardar) {
       const hoy = new Date();
       doc.save(hoy.getDate() + hoy.getMonth() + hoy.getFullYear() + hoy.getTime() + '.pdf')
-    } else {
-
     }
   }
 
-  imprimirListado(encabezado: string[], cuerpo: Array<any>, titulo: string, guardar?: boolean) {
+  imprimirListado(cuerpo: Array<any>, titulo: string, guardar?: boolean) {
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "px",
@@ -49,7 +48,6 @@ export class ImpresionService {
     });
     const productos = cuerpo.map(prod => {
       return [
-
         prod.nombre + "  " + prod.descripcion,
 
       ]
@@ -64,10 +62,8 @@ export class ImpresionService {
     if (guardar) {
       const hoy = new Date();
       doc.save(hoy.getDate() + hoy.getMonth() + hoy.getFullYear() + hoy.getTime() + '.pdf')
-    } else {
-
-    }
-  }
-
+    } 
 
 }
+}
+

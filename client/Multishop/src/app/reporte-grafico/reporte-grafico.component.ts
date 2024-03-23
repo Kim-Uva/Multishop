@@ -127,14 +127,14 @@ export class ReporteGraficoComponent implements OnInit {
     const dateParts = dateString.split('-');
     return parseInt(dateParts[1]);
   }
+
+
   descargar() {
     html2canvas(document.body).then(canvas => {
       const contentDataURL = canvas.toDataURL('imagen/png')
       let pdf = new jsPDF('p', 'px', 'a4');
 
       pdf.addImage(contentDataURL, 'PNG', 0, 0, 450, 250)
-
-      let hola;
       pdf.save(this.title + '.pdf');
 
 

@@ -1,0 +1,50 @@
+<p *ngIf="isLoading">Cargando...</p>
+<div class="cards" style="display: flex; flex-wrap: wrap">
+
+
+
+  <mat-card *ngFor="let producto of productos">
+    <mat-card-title>
+      <h3>{{ producto.nombre }}</h3>
+    </mat-card-title>
+    <mat-card-content>
+      <p>{{ producto.descripcion }}</p>
+      <p>Precio {{ producto.precio | currency : "₡" }}</p>
+
+      @if (producto.stock ==='0') {
+      <p color="warn">Stock: Agotado</p>
+      } @else {
+      <p>Stock: {{ producto.stock }}</p>
+      } @if (producto.estadoProducto === true) {
+      <p>Estado: Nuevo</p>
+      }@else {
+      <p>Estado: Usado</p>
+      }
+    </mat-card-content>
+    <mat-card-actions class="button">
+      <button style="width: 40%" mat-raised-button color="accent" type="submit">
+        Agregar al carrito
+        <mat-icon class="material-symbols-outlined">
+          add_shopping_cart
+        </mat-icon>
+      </button>
+      <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="detalleProducto(producto.id)">
+        Ver más <mat-icon class="material-symbols-outlined"> info </mat-icon>
+      </button>
+
+    </mat-card-actions>
+  </mat-card>
+
+
+
+</div>
+<div class="BotonReporte">
+  <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="onImprimir()" class="boton">
+    Generar reporte Tabla <mat-icon class="material-symbols-outlined"> info </mat-icon>
+  </button>
+
+  <button style="width: 30%" mat-raised-button color="primary" type="button" (click)="onImprimirListado()"
+    class="boton">
+    Generar reporte listado <mat-icon class="material-symbols-outlined"> info </mat-icon>
+  </button>
+</div>

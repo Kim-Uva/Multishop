@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ProductoTablaComponent } from './components/producto-tabla/producto-tabla.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -17,13 +20,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
     ProdutoListaComponent,
     ProdutoDetalleComponent,
     ProdutoFormularioComponent,
+    ProductoTablaComponent,
   ],
   imports: [
     CommonModule, 
     ProductoRoutingModule,
     MatCardModule,
     MatButtonModule,
+    MatTableModule,
     MatIconModule,
+    MatPaginator,
     MatGridListModule,
     MatChipsModule 
 

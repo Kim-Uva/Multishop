@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProdutoListaComponent } from './components/produto-lista/produto-lista.component';
 import { ProdutoFormularioComponent } from './components/produto-formulario/produto-formulario.component';
 import { ProdutoDetalleComponent } from './components/produto-detalle/produto-detalle.component';
+import { ProductoTablaComponent } from './components/producto-tabla/producto-tabla.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
       {
         path: 'form/:id',
         component: ProdutoFormularioComponent,
+      },
+
+      {
+        path: 'tablaProducto',
+        component: ProductoTablaComponent,
       },
       {
         path: '',

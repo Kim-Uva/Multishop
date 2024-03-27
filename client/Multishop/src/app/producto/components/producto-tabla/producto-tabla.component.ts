@@ -23,7 +23,7 @@ export class ProductoTablaComponent implements AfterViewInit {
   //@ViewChild(MatTable) table!: MatTable<VideojuegoAllItem>;
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns = ['id','codigoProducto','nombre', 'descripcion','stock', 'acciones'];
+  displayedColumns = ['id','codigoProducto','nombre', 'descripcion','stock', 'categoria','acciones'];
 
   constructor(
     private fb: FormBuilder,

@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InventarioListaComponent } from './inventario-lista/inventario-lista.component';
+import { InventarioTablaComponent } from './inventario-tabla/inventario-tabla.component';
 
 const routes: Routes = [
-
   {
-    path:'inventario', 
-    component: InventarioListaComponent
+    path: 'inventario',
+    children: [
+      {
+        path: 'tablainventario',
+        component: InventarioTablaComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'lista',
+        pathMatch: 'full',
+      },
+    ],
   },
 ];
 
@@ -15,4 +24,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class InventarioRoutingModule { }
-1

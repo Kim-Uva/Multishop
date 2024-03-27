@@ -1,0 +1,54 @@
+<div class="mat-elevation-z8">
+    <table mat-table class="full-width-table" 
+    [dataSource]="dataSource"
+    matSort aria-label="Elements">
+        <ng-container matColumnDef="idBodega">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>idBodega</th>
+            <td mat-cell *matCellDef="let row">{{row.idBodega}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="idProducto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>idProducto</th>
+            <td mat-cell *matCellDef="let row">{{row.idProducto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadMinima">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>cantidadMinima</th>
+            <td mat-cell *matCellDef="let row">{{row.cantidadMinima}}
+
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nombreProducto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre producto</th>
+            <td mat-cell *matCellDef="let row">{{row.producto.nombre}}
+
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidadMaxima">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>cantidadMaxima</th>
+            <td mat-cell *matCellDef="let row">{{row.cantidadMaxima}}</td>
+
+
+        </ng-container>
+        <ng-container matColumnDef="fechaRegistro">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaRegistro</th>
+            <td mat-cell *matCellDef="let row">{{ row.fechaRegistro }}</td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      #paginator
+      [length]="dataSource.data.length"
+      [pageIndex]="0"
+      [pageSize]="3"
+      [pageSizeOptions]="[3, 5, 10]"
+      aria-label="Selecccione una página"
+     
+    >
+    </mat-paginator>
+  </div>

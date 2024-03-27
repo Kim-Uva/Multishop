@@ -12,6 +12,7 @@ import { HomeModule } from './home/home.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ReporteGraficoComponent } from './reporte-grafico/reporte-grafico.component';
 import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
+import { InventarioModule } from './inventario/inventario.module';
 
 @NgModule({
   declarations: [
@@ -24,9 +25,11 @@ import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
     CoreModule,
     ShareModule,
     HomeModule,
+    
 
     ReporteGraficoModule,
     ProductoModule,
+    InventarioModule,
 
 
     AppRoutingModule,

@@ -17,11 +17,7 @@ const routes: Routes = [
         path: ':id',
         component: ProdutoDetalleComponent,
       },
-      {
-        path: 'form/:id',
-        component: ProdutoFormularioComponent,
-      },
-
+      
       {
         path: 'tablaProducto',
         component: ProductoTablaComponent,
@@ -32,6 +28,12 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },
+
+  {path:'producto/create', component: ProdutoFormularioComponent},
+  {
+    path: 'producto/update/:id',
+    component: ProdutoFormularioComponent,
   },
 ];
 

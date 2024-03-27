@@ -23,7 +23,7 @@ export class ProductoTablaComponent implements AfterViewInit {
   //@ViewChild(MatTable) table!: MatTable<VideojuegoAllItem>;
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns = ['id','codigoProducto','nombre', 'descripcion','stock'];
+  displayedColumns = ['id','codigoProducto','nombre', 'descripcion','stock', 'acciones'];
 
   constructor(
     private fb: FormBuilder,
@@ -52,4 +52,16 @@ export class ProductoTablaComponent implements AfterViewInit {
         
       })
   }
+  actualizarProducto(id: number) {
+    this.router.navigate(['/producto/update', id], {
+      relativeTo: this.activeRouter,
+    });
+  }
+  crearProducto() {
+    this.router.navigate(['/producto/create'], {
+      relativeTo: this.activeRouter,
+    });
+}
+
+
 }

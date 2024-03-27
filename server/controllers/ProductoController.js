@@ -4,9 +4,7 @@ const bcrypt = require("bcrypt");
 
 module.exports.get = async (request, response, next) => {
   const productos = await prisma.producto.findMany({
-    orderBy: {
-      nombre: "asc",
-    },
+   
     include:{
       categoria:true,
       subCategorias:true,

@@ -13,6 +13,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductoTablaComponent } from './components/producto-tabla/producto-tabla.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule,
     MatPaginator,
     MatGridListModule,
-    MatChipsModule 
+    MatSelectModule,
+    MatRadioModule,
+    MatChipsModule,    
+    ReactiveFormsModule
 
   ],
 })

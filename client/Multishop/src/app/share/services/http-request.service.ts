@@ -21,12 +21,17 @@ export class HttpRequestService {
   get<T>(endpoint: string, filtro: number): Observable<T> {
     return this.http.get<T>(`${this.base_url}/${endpoint}/${filtro}`);
   }
+  // crear
+  create(endopoint: string, objCreate: any | any): Observable<any | any[]> {
+    return this.http.post<any | any[]>(this.base_url + endopoint, objCreate);
+  }
 
-  // create () {
+  // update  
+  update(endopoint: string, objUpdate: any | any): Observable<any | any[]> {
+    return this.http.put<any | any[]>(
+      this.base_url + endopoint + `/${objUpdate.id}`,
+      objUpdate
+    );
+  }
 
-  // }
-
-  // update () {
-
-  // }
 }

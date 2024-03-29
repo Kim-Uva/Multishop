@@ -16,8 +16,8 @@ export class ProdutoFormularioComponent implements OnInit {
 
   titleForm: string = 'Crear';
   //Lista de generos
-  categoriasList: any;
-  subCategoriasList: any;
+  categoriasList: any[] = [];
+  subCategoriasList: any[] = [];
   //Producto a actualizar
   productoInfo: any;
   //Respuesta del API crear/modificar
@@ -43,10 +43,11 @@ export class ProdutoFormularioComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log('entro')
+
     this.activeRouter.params.subscribe((params: Params) => {
-
       this.idProducto = params['id']
-
+      console.log(this.idProducto);
       if (this.idProducto != undefined) {
         this.isCreate = false
         this.titleForm = 'Actualizar'
@@ -61,12 +62,11 @@ export class ProdutoFormularioComponent implements OnInit {
             this.productoForm.setValue({
               id: this.productoInfo.id,
               nombre: this.productoInfo.nombre,
-              codigoProducto: this.productoInfo.codigoProducto,
               descripcion: this.productoInfo.descripcion,
               stock: this.productoInfo.stock,
               precio: this.productoInfo.precio,
-              categoria: this.productoInfo.categoria.map(({ id }) => id),
-              subCategorias: this.productoInfo.subCategorias.map(({ id }) => id)
+              categoria: this.productoInfo.idCategoria,
+              subCategoria: this.productoInfo.idSubCategoria
             })
           })
         //[{id:5, nombre: valor, ..}]
@@ -116,15 +116,14 @@ export class ProdutoFormularioComponent implements OnInit {
         ])
       ],
       stock: [null, Validators.required],
-
       categoria: [null, Validators.required],
-
+      subCategoria: [null, Validators.required]
     })
   }
 
 
 
-  submitProducto(): void {
+  submit(): void {
     //Establecer submit verdadero
     this.submitted = true;
     //Verificar validación
@@ -148,57 +147,57 @@ export class ProdutoFormularioComponent implements OnInit {
 
     if (this.isCreate) {
       //Accion API create enviando toda la informacion del formulario
-       this.gService
+      this.gService
         .create('producto', this.productoForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           //Obtener respuesta
           this.respProducto = data;
-          this.router.navigate(['/tablaProducto']); 
+          this.router.navigate(['/tablaProducto']);
 
-        }); 
+        });
     } else {
       //Accion API actualizar enviando toda la informacion del formulario
-       this.gService
+      this.gService
         .update('producto', this.productoForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           //Obtener respuesta
           this.respProducto = data;
-      
-           this.router.navigate(['/tablaProducto']); 
-        }); 
-    
-  }
-}
 
-public errorHandling = (controlName: string) => {
-  let messageError=''
-  const control = this.productoForm.get(controlName);
-  if(control.errors){
-    for (const message of FormErrorMessage) {
-    
-      if (control &&
-          control.errors[message.forValidator] &&
-          message.forControl==controlName) {
-            messageError = message.text;
-      }
+          this.router.navigate(['/tablaProducto']);
+        });
+
     }
-    return messageError
-  }else{
-    return false
   }
-};
-onReset() {
-  this.submitted = false;
-  this.productoForm.reset();
-}
-onBack() {
-  this.router.navigate(['/tablaProducto']); 
-}
-ngOnDestroy() {
-  this.destroy$.next(true);
-  // Desinscribirse
-  this.destroy$.unsubscribe();
-}
+
+  public errorHandling = (controlName: string) => {
+    let messageError = ''
+    const control = this.productoForm.get(controlName);
+    if (control.errors) {
+      for (const message of FormErrorMessage) {
+
+        if (control &&
+          control.errors[message.forValidator] &&
+          message.forControl == controlName) {
+          messageError = message.text;
+        }
+      }
+      return messageError
+    } else {
+      return false
+    }
+  };
+  onReset() {
+    this.submitted = false;
+    this.productoForm.reset();
+  }
+  onBack() {
+    this.router.navigate(['/tablaProducto']);
+  }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    // Desinscribirse
+    this.destroy$.unsubscribe();
+  }
 }

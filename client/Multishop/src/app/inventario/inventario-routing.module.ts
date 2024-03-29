@@ -7,12 +7,12 @@ const routes: Routes = [
     path: 'inventario',
     children: [
       {
-        path: 'tablainventario',
+        path: 'tabla',
         component: InventarioTablaComponent,
       },
       {
         path: '',
-        redirectTo: 'lista',
+        redirectTo: 'tabla',
         pathMatch: 'full',
       },
     ],

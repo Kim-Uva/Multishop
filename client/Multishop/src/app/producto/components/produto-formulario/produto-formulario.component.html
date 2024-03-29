@@ -1,80 +1,74 @@
-<form [formGroup]="productoForm" (ngSubmit)="submitProducto()"  novalidate >
-
-
-    <input type="hidden" formControlName="id" />
-    <mat-card class="shipping-card"> 
-      <mat-card-header>
-        <mat-card-title>{{titleForm}} Producto</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="nombre" maxlength="20" placeholder="Nombre" >
-              <mat-hint align="end"> / 20</mat-hint>
-            
-            </mat-form-field>
-          </div>
+<form [formGroup]="productoForm" (ngSubmit)="submit()" novalidate>
+  <input type="hidden" formControlName="id" />
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>{{titleForm}} Videojuego</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="nombre" maxlength="20" placeholder="Nombre">
+            <mat-hint align="end"> / 20</mat-hint>
+          </mat-form-field>
         </div>
-        
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="descripcion" placeholder="Descripción" >
-       
-              
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="precio" placeholder="Precio" >
-        
-            </mat-form-field>
-          </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="descripcion" placeholder="Descripción">
+          </mat-form-field>
         </div>
-        
-         <div class="row">
-          <div class="col" *ngIf="categoriasList">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Seleccione una categoría" formControlName="categoria" multiple>
-                @for (item of categoriasList; track item.id) {
-                  <mat-option [value]="item.id">
-                    {{item.nombre}}
-                </mat-option>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="precio" placeholder="Precio">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col" *ngIf="categoriasList">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Seleccione una categoría" formControlName="categoria">
+              @for (item of categoriasList; track item.id) {
+              <mat-option [value]="item.id">
+                {{item.nombre}}
+              </mat-option>
               }
-                
-              </mat-select>
+
+            </mat-select>
             @if (errorHandling('categoria')) {
-              <mat-error>
-                {{errorHandling('categoria')}}
-              </mat-error>
+            <mat-error>
+              {{errorHandling('categoria')}}
+            </mat-error>
             }
-            </mat-form-field>
-          </div>
-
-          <div class="col" *ngIf="subCategoriasList">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Seleccione una Sub-Categoría" formControlName="subcategoria" multiple>
-                @for (item of subCategoriasList; track item.id) {
-                  <mat-option [value]="item.id">
-                    {{item.nombre}}
-                </mat-option>
-              }
-                
-              </mat-select>
-            
-            </mat-form-field>
-          </div>
+          </mat-form-field>
         </div>
-         
-     
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="example-button-row">
+
+        <div class="col" *ngIf="subCategoriasList">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Seleccione una Sub-Categoría" formControlName="subCategoria">
+              @for (item of subCategoriasList; track item.id) {
+              <mat-option [value]="item.id">
+                {{item.nombre}}
+              </mat-option>
+              }
+
+            </mat-select>
+
+          </mat-form-field>
+        </div>
+      </div>
+
+
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="example-button-row">
         <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
         <button mat-raised-button color="primary" (click)="onBack()">Regresar</button>
         <button mat-raised-button color="accent" type="submit">Guardar</button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 </form>

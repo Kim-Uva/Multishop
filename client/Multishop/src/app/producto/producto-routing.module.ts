@@ -14,31 +14,34 @@ const routes: Routes = [
         component: ProdutoListaComponent,
       },
       {
+        path: 'tabla',
+        component: ProductoTablaComponent,
+      },
+      {
+        path: 'create',
+        component: ProdutoFormularioComponent
+      },
+      {
         path: ':id',
         component: ProdutoDetalleComponent,
       },
-      
       {
-        path: 'tablaProducto',
-        component: ProductoTablaComponent,
+        path: 'update/:id',
+        component: ProdutoFormularioComponent
       },
       {
         path: '',
         redirectTo: 'lista',
         pathMatch: 'full',
       },
+
     ],
   },
-
-  {path:'producto/create', component: ProdutoFormularioComponent},
-  {
-    path: 'producto/update/:id',
-    component: ProdutoFormularioComponent,
-  },
+  { path: 'producto/create', component: ProdutoFormularioComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductoRoutingModule {}
+export class ProductoRoutingModule { }

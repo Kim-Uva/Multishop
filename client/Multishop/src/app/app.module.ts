@@ -25,13 +25,9 @@ import { InventarioModule } from './inventario/inventario.module';
     CoreModule,
     ShareModule,
     HomeModule,
-    
-
     ReporteGraficoModule,
-    ProductoModule,
     InventarioModule,
-
-
+    ProductoModule,
     AppRoutingModule,
     //Siempre ir al final
 

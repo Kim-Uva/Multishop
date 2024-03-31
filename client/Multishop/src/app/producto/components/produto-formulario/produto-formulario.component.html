@@ -2,14 +2,21 @@
   <input type="hidden" formControlName="id" />
   <mat-card class="shipping-card">
     <mat-card-header>
-      <mat-card-title>{{titleForm}} Videojuego</mat-card-title>
+      <mat-card-title>{{titleForm}} Producto</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput formControlName="nombre" maxlength="20" placeholder="Nombre">
-            <mat-hint align="end"> / 20</mat-hint>
+            <input matInput formControlName="nombre" placeholder="Nombre">
+          </mat-form-field>
+        </div>
+      </div>
+
+ <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="codigoProducto" placeholder="SKU">
           </mat-form-field>
         </div>
       </div>
@@ -58,6 +65,22 @@
             </mat-select>
 
           </mat-form-field>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <mat-label>Estado del producto</mat-label>
+            <mat-radio-group formControlName="estadoProducto">
+              <mat-radio-button [value]="true">Nuevo</mat-radio-button>
+              <mat-radio-button [value]="false">Usado</mat-radio-button>
+            </mat-radio-group>
+            @if (errorHandling('estadoProducto')) {
+              <mat-error>
+                {{errorHandling('estadoProducto')}}
+              </mat-error>
+            }
+          </div>
         </div>
       </div>
 

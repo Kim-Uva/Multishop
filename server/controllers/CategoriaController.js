@@ -16,5 +16,5 @@ module.exports.getById = async (request, response, next) => {
     },
 
   });
-  response.json(categoria);
+  response.json(categoria);  
 };

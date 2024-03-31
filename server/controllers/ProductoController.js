@@ -103,27 +103,31 @@ module.exports.update = async (request, response, next) => {
     let producto = request.body;
     let idProducto = parseInt(request.params.id);
 
-    const categorianom = await prisma.categoria.findUnique({
-      where: {
-        id: producto.idCategoria,
-      },
+    const productoAntiguo = await prisma.producto.findUnique({
+      where: { id: idProducto },
+      include: {
+        categoria: {
+          select:{
+            id:true
+          }
+        },
+        subCategorias: {
+          select:{
+            id:true
+          }
+        }
+      }
     });
 
-    const subCategorianom = await prisma.subCategoria.findUnique({
-      where: {
-        id: producto.idSubCategoria,
-      },
-    });
+    // //Generar el SKU act
+    // let nombreSubCategoria = subCategorianom.nombre;
+    // let nombreCategoria = categorianom.nombre;
 
-    //Generar el SKU act
-    let nombreSubCategoria = subCategorianom.nombre;
-    let nombreCategoria = categorianom.nombre;
+    // let categoriaCod = nombreCategoria.substring(0, 3).toUpperCase();
+    // let subCategoriaCod = nombreSubCategoria.substring(0, 3).toUpperCase();
+    // let idCodigo = idProducto.toString().padStart(2, "0"); //  2 dígitos
 
-    let categoriaCod = nombreCategoria.substring(0, 3).toUpperCase();
-    let subCategoriaCod = nombreSubCategoria.substring(0, 3).toUpperCase();
-    let idCodigo = idProducto.toString().padStart(2, "0"); //  2 dígitos
-
-    let SKU = `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
+    // let SKU = `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
 
     const actualizarProducto = await prisma.producto.update({
       where: {
@@ -131,7 +135,7 @@ module.exports.update = async (request, response, next) => {
       },
 
       data: {
-        codigoProducto: SKU,
+        codigoProducto: producto.codigoProducto,
         nombre: producto.nombre,
         descripcion: producto.descripcion,
         precio: producto.precio,
@@ -139,18 +143,20 @@ module.exports.update = async (request, response, next) => {
         idCategoria: producto.idCategoria,
         idSubCategoria: producto.idSubCategoria,
 
-        invProductos:{
-           createMany:{
-             data:{
-               cantidadMinima: producto.cantidadMinima,
-               cantidadMaxima: producto.cantidadMaxima,
-               cantidad: producto.cantidad,
+
+        
+        // invProductos:{
+        //    createMany:{
+        //      data:{
+        //        cantidadMinima: producto.cantidadMinima,
+        //        cantidadMaxima: producto.cantidadMaxima,
+        //        cantidad: producto.cantidad,
   
-               idBodega: producto.idBodega,
-               idUsuarioActualizo: producto.idUsuarioActualizo,
-             }
-           }
-         }
+        //        idBodega: producto.idBodega,
+        //        idUsuarioActualizo: producto.idUsuarioActualizo,
+        //      }
+        //    }
+        //  }
       },
     });
 

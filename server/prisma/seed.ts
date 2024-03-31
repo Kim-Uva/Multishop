@@ -150,9 +150,7 @@ const main = async () => {
             data: {
                 nombre: 'Dell',
 
-                categorias: {
-                    connect: { id: 1 }
-                },
+             
             },
 
         });
@@ -161,9 +159,7 @@ const main = async () => {
             data: {
                 nombre: 'Lenovo',
 
-                categorias: {
-                    connect: { id: 1 }
-                },
+               
             },
 
         });
@@ -173,9 +169,7 @@ const main = async () => {
                 nombre: 'Acer',
 
 
-                categorias: {
-                    connect: { id: 1 }
-                },
+               
             },
 
         });
@@ -184,9 +178,7 @@ const main = async () => {
             data: {
                 nombre: 'Hp',
 
-                categorias: {
-                    connect: { id: 1 }
-                },
+               
             },
 
         });
@@ -195,9 +187,7 @@ const main = async () => {
             data: {
                 nombre: 'Razer',
 
-                categorias: {
-                    connect: [{ id: 1 }, { id: 5 }]
-                },
+               
             },
 
         });
@@ -206,9 +196,7 @@ const main = async () => {
             data: {
                 nombre: 'Logitech',
 
-                categorias: {
-                    connect: { id: 1 }
-                },
+              
             },
 
         });
@@ -218,10 +206,7 @@ const main = async () => {
             data: {
                 nombre: 'Samsung',
 
-                categorias: {
-                    connect: [{ id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
-
-                },
+               
             },
 
         });
@@ -230,9 +215,7 @@ const main = async () => {
             data: {
                 nombre: 'Sony',
 
-                categorias: {
-                    connect: [{ id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
-                },
+               
             },
 
         });
@@ -241,9 +224,7 @@ const main = async () => {
             data: {
                 nombre: 'Apple',
 
-                categorias: {
-                    connect: [{ id: 2 }, { id: 4 }, { id: 5 }]
-                },
+               
             },
 
         });
@@ -252,9 +233,6 @@ const main = async () => {
             data: {
                 nombre: 'Xiaomi',
 
-                categorias: {
-                    connect: [{ id: 2 }, { id: 4 }]
-                },
             },
 
         });
@@ -263,9 +241,7 @@ const main = async () => {
             data: {
                 nombre: 'Huawei',
 
-                categorias: {
-                    connect: [{ id: 2 }, { id: 4 }]
-                },
+              
             },
 
         });
@@ -275,9 +251,7 @@ const main = async () => {
             data: {
                 nombre: 'TCL',
 
-                categorias: {
-                    connect: { id: 3 }
-                },
+              
             },
 
         });
@@ -286,9 +260,7 @@ const main = async () => {
             data: {
                 nombre: 'LG',
 
-                categorias: {
-                    connect: { id: 3 }
-                },
+              
             },
 
         });
@@ -297,9 +269,7 @@ const main = async () => {
             data: {
                 nombre: 'Bitz',
 
-                categorias: {
-                    connect: { id: 5 }
-                },
+             
             },
 
         });

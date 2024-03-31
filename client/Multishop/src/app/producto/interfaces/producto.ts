@@ -4,7 +4,7 @@ import { subCategoriaProducto } from "./subCategoriaProducto";
 
 export interface producto {
   id: number;
-  codigoProducto: string;
+  codigoProducto?: string;
   nombre: string;
   descripcion: string;
   stock: string;

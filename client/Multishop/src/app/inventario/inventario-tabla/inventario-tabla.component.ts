@@ -31,7 +31,7 @@ export class InventarioTablaComponent implements AfterViewInit {
   //@ViewChild(MatTable) table!: MatTable<VideojuegoAllItem>;
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns = ['idBodega', 'idProducto', 'cantidadMinima', 'nombreProducto', 'cantidadMaxima', 'fechaRegistro'];
+  displayedColumns = ['idBodega', 'idProducto', 'cantidadMinima', 'nombreProducto', 'cantidadMaxima', 'fechaRegistro', 'acciones'];
 
 
 
@@ -43,52 +43,25 @@ export class InventarioTablaComponent implements AfterViewInit {
 
   listaInventario() {
 
-    const arreglo = [
-      {
-        cantidadMaxima: 50,
-        cantidadMinima: 10,
-        fechaRegistro: "2024-03-20T05:57:26.629Z",
-        idBodega: 1,
-        idProducto: 2,
-      },
-
-      {
-
-        cantidadMaxima: 75,
-        cantidadMinima: 20,
-        fechaRegistro: "2024-03-15T10:42:18.102Z",
-        idBodega: 2,
-        idProducto: 5,
-
-      },
-      {
-
-        cantidadMaxima: 60,
-        cantidadMinima: 15,
-        fechaRegistro: "2024-03-18T08:22:47.534Z",
-        idBodega: 3,
-        idProducto: 8,
-
-      },
-      {
-
-        cantidadMaxima: 100,
-        cantidadMinima: 30,
-        fechaRegistro: "2024-03-12T14:36:09.876Z",
-        idBodega: 1,
-        idProducto: 3,
-
-      }
-    ];
     this.gService.list('inventario/')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        console.log(arreglo)
         this.datos = data
         this.dataSource = new MatTableDataSource(this.datos);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
 
       })
+  }
+
+  actualizarProducto(id: number) {
+    this.router.navigate(['/producto/update', id], {
+      relativeTo: this.activeRouter,
+    });
+  }
+  crearProducto() {
+    this.router.navigate(['/producto/create'], {
+      relativeTo: this.activeRouter,
+    });
   }
 }

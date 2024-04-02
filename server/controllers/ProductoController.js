@@ -32,12 +32,12 @@ module.exports.getById = async (request, response, next) => {
 //Crear Producto
 module.exports.create = async (request, response, next) => {
   let body = request.body;
-  let stock = parseInt(body.stock); 
+  let stock = parseInt(body.stock);
 
 
   const nuevoProducto = await prisma.producto.create({
     data: {
-     
+
       nombre: body.nombre,
       descripcion: body.descripcion,
       precio: body.precio,

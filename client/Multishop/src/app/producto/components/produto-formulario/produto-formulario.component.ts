@@ -4,7 +4,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpRequestService } from '../../../share/services/http-request.service';
 import { Subject, takeUntil } from 'rxjs';
 import { FormErrorMessage } from '../../../../form-error-message';
+import { ToastrService } from 'ngx-toastr';
 
+import 'ngx-toastr/toastr';
 @Component({
   selector: 'app-produto-formulario',
   templateUrl: './produto-formulario.component.html',
@@ -31,6 +33,7 @@ export class ProdutoFormularioComponent implements OnInit {
   isCreate: boolean = true;
 
   constructor(
+    private toastr: ToastrService,
     private fb: FormBuilder,
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -159,7 +162,8 @@ export class ProdutoFormularioComponent implements OnInit {
     this.submitted = true;
     //Verificar validación
     if (this.productoForm.invalid) {
-    return;
+      this.toastr.error("Faltan Datos por llenar");
+      return;
     }
     //Obtener id categoria del Formulario y Crear arreglo con {id: value}
     let categoriaForm = this.productoForm.get('categoria').value;
@@ -180,7 +184,7 @@ export class ProdutoFormularioComponent implements OnInit {
           //Obtener respuesta
           this.respProducto = data;
           this.router.navigate(['/producto/tabla']);
-
+          this.toastr.success("Se ha creado producto correctamente");
         });
     } else {
       //Accion API actualizar enviando toda la informacion del formulario
@@ -192,6 +196,8 @@ export class ProdutoFormularioComponent implements OnInit {
           this.respProducto = data;
 
           this.router.navigate(['/producto/tabla']);
+
+          this.toastr.success("Se ha editado producto correctamente");
         });
 
     }

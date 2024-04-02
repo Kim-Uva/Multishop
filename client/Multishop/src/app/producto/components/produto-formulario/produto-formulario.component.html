@@ -1,49 +1,60 @@
+<div class="body">
 <form [formGroup]="productoForm" (ngSubmit)="submit()" novalidate>
   <input type="hidden" formControlName="id" />
-  <mat-card class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>{{titleForm}} Producto</mat-card-title>
-    </mat-card-header>
+  <mat-card-header>
+    <mat-card-title>{{titleForm}} Producto</mat-card-title>
+  </mat-card-header>
+  <mat-card class="shipping-card"  >
+   
     <mat-card-content>
       <div class="row">
         <div class="col">
+          <mat-label>Nombre</mat-label>
+
           <mat-form-field class="full-width">
-            <input matInput formControlName="nombre" placeholder="Nombre">
+            <input matInput formControlName="nombre" placeholder="Computadora portatil">
           </mat-form-field>
         </div>
       </div>
 
- <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="codigoProducto" placeholder="SKU">
-          </mat-form-field>
-        </div>
-      </div>
+
 
       <div class="row">
         <div class="col">
+          <mat-label>Descripción</mat-label>
+
           <mat-form-field class="full-width">
-            <input matInput formControlName="descripcion" placeholder="Descripción">
+            <input height="150px" matInput formControlName="descripcion" placeholder="Descripción del Producto">
           </mat-form-field>
         </div>
+
         <div class="col">
+          <mat-label>Precio</mat-label>
+
           <mat-form-field class="full-width">
+
             <input matInput formControlName="precio" placeholder="Precio">
+            <span style="color: black;" matTextPrefix>₡&nbsp;</span>
+
           </mat-form-field>
         </div>
         <div class="col">
+          <mat-label>Stock</mat-label>
+
           <mat-form-field class="full-width">
-            <input matInput formControlName="stock" placeholder="stock">
+            <input matInput formControlName="stock" [disabled]="true" >
           </mat-form-field>
         </div>
       </div>
       
 
       <div class="row">
+
         <div class="col" *ngIf="categoriasList">
+          <mat-label>Categoría</mat-label>
+
           <mat-form-field class="full-width">
-            <mat-select placeholder="Seleccione una categoría" formControlName="categoria">
+            <mat-select placeholder="--Seleccione" formControlName="categoria">
               @for (item of categoriasList; track item.id) {
               <mat-option [value]="item.id">
                 {{item.nombre}}
@@ -60,8 +71,10 @@
         </div>
 
         <div class="col" *ngIf="subCategoriasList">
+          <mat-label>Sub-Categoría</mat-label>
+
           <mat-form-field class="full-width">
-            <mat-select placeholder="Seleccione una Sub-Categoría" formControlName="subCategoria">
+            <mat-select placeholder="--Seleccione" formControlName="subCategoria">
               @for (item of subCategoriasList; track item.id) {
               <mat-option [value]="item.id">
                 {{item.nombre}}
@@ -94,10 +107,10 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="example-button-row">
-        <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
-        <button mat-raised-button color="primary" (click)="onBack()">Regresar</button>
-        <button mat-raised-button color="accent" type="submit">Guardar</button>
+        <button mat-raised-button color="primary" (click)="onBack()"><mat-icon>arrow_back</mat-icon>Atras</button>
+        <button mat-raised-button style="background-color: cadetblue; color: bisque;" (click)="onReset()"><mat-icon>cleaning_services</mat-icon> Limpiar Campos</button>
+        <button mat-raised-button style="background-color: green; color: bisque;" type="submit"><mat-icon>save</mat-icon>Guardar</button>
       </div>
     </mat-card-actions>
   </mat-card>
-</form>
+</form></div>

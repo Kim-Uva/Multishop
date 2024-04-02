@@ -30,6 +30,8 @@ export class ProdutoFormularioComponent implements OnInit {
   //Sí es crear
   isCreate: boolean = true;
 
+  isDescripcionDisabled: boolean = true; 
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -62,8 +64,8 @@ export class ProdutoFormularioComponent implements OnInit {
             this.productoForm.setValue({
               id: this.productoInfo.id,
               nombre: this.productoInfo.nombre,
-              codigoProducto: this.productoInfo.codigoProducto,
-              estadoProducto: this.productoInfo.estadoProducto,
+              codigoProducto:this.productoInfo.codigoProducto,
+              estadoProducto:this.productoInfo.estadoProducto,
 
               descripcion: this.productoInfo.descripcion,
               stock: this.productoInfo.stock,
@@ -72,33 +74,36 @@ export class ProdutoFormularioComponent implements OnInit {
               subCategoria: this.productoInfo.idSubCategoria,
             });
 
+            this.productoForm.patchValue({ codigoProducto: this.generarSKU() });
 
           })
 
-
+     
       }
-
-
+      
+      
     })
+    this.listCategoria()
+    this.listSubCategoria()
 
   }
 
   //Para el sku
-  generarSKU(): string {
-    const catSelect = this.categoriasList.find(categoria => categoria.id === this.productoForm.value.categoria);
-    const subCatSelect = this.subCategoriasList.find(subCategoria => subCategoria.id === this.productoForm.value.subCategoria);
+generarSKU(): string {
+  const catSelect = this.categoriasList.find(categoria => categoria.id === this.productoForm.value.categoria);
+  const subCatSelect = this.subCategoriasList.find(subCategoria => subCategoria.id === this.productoForm.value.subCategoria);
 
-    if (catSelect && subCatSelect) {
-      const categoriaCod = catSelect.nombre.substring(0, 3).toUpperCase();
-      const subCategoriaCod = subCatSelect.nombre.substring(0, 3).toUpperCase();
-      const idCodigo = this.productoForm.value.id?.toString().padStart(2, "0"); // 2 dígitos para el ID
+  if (catSelect && subCatSelect) {
+    const categoriaCod = catSelect.nombre.substring(0, 3).toUpperCase();
+    const subCategoriaCod = subCatSelect.nombre.substring(0, 3).toUpperCase();
+    const idCodigo = this.productoForm.value.id?.toString().padStart(2, "0"); // 2 dígitos para el ID
 
-      return `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
-    } else {
-      // Manejo de error si no se encuentran las categorías seleccionadas
-      return '';
-    }
+    return `${categoriaCod}_${subCategoriaCod}_${idCodigo}`;
+  } else {
+    // Manejo de error si no se encuentran las categorías seleccionadas
+    return '';
   }
+}
 
   listCategoria() {
     this.categoriasList = null;
@@ -134,7 +139,7 @@ export class ProdutoFormularioComponent implements OnInit {
       ])
       ],
       descripcion: [null, Validators.required],
-      codigoProducto: [null, Validators.required],
+      codigoProducto: [null],
       estadoProducto: [true, Validators.required], //Por ser boolean
 
       precio: [null,
@@ -142,11 +147,7 @@ export class ProdutoFormularioComponent implements OnInit {
           Validators.required
         ])
       ],
-      stock: [null,
-        Validators.compose([
-          Validators.required
-        ])
-      ],
+      stock: [0, Validators.required],
       categoria: [null, Validators.required],
       subCategoria: [null, Validators.required]
     })
@@ -159,17 +160,17 @@ export class ProdutoFormularioComponent implements OnInit {
     this.submitted = true;
     //Verificar validación
     if (this.productoForm.invalid) {
-    return;
+      return;
     }
     //Obtener id categoria del Formulario y Crear arreglo con {id: value}
     let categoriaForm = this.productoForm.get('categoria').value;
-
-    this.productoForm.patchValue({ categoria: categoriaForm });
-
-    let subCategoriaForm = this.productoForm.get('subCategoria').value;
-    this.productoForm.patchValue({ subcategorias: subCategoriaForm });
-
-    this.productoForm.patchValue({ codigoProducto: this.generarSKU() });
+ 
+      this.productoForm.patchValue({ categoria: categoriaForm });
+    
+      let subCategoriaForm = this.productoForm.get('subCategoria').value;
+        this.productoForm.patchValue({ subcategorias: subCategoriaForm });
+ 
+        this.productoForm.patchValue({ codigoProducto: this.generarSKU() });
 
     if (this.isCreate) {
       //Accion API create enviando toda la informacion del formulario

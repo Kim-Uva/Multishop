@@ -5,64 +5,14 @@
             <mat-card-title>{{titleForm}} Inventario</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="nombre" placeholder="Nombre">
-                    </mat-form-field>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="codigoProducto" placeholder="SKU">
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="descripcion" placeholder="Descripción">
-                    </mat-form-field>
-                </div>
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="precio" placeholder="Precio">
-                    </mat-form-field>
-                </div>
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="stock" placeholder="stock">
-                    </mat-form-field>
-                </div>
-            </div>
 
 
             <div class="row">
-                <div class="col" *ngIf="categoriasList">
+                <div class="col" *ngIf="ProductoList">
                     <mat-form-field class="full-width">
-                        <mat-select placeholder="Seleccione una categoría" formControlName="categoria">
-                            @for (item of categoriasList; track item.id) {
-                            <mat-option [value]="item.id">
-                                {{item.nombre}}
-                            </mat-option>
-                            }
-
-                        </mat-select>
-                        @if (errorHandling('categoria')) {
-                        <mat-error>
-                            {{errorHandling('categoria')}}
-                        </mat-error>
-                        }
-                    </mat-form-field>
-                </div>
-
-                <div class="col" *ngIf="subCategoriasList">
-                    <mat-form-field class="full-width">
-                        <mat-select placeholder="Seleccione una Sub-Categoría" formControlName="subCategoria">
-                            @for (item of subCategoriasList; track item.id) {
+                        <mat-select placeholder="Seleccione una Producto" formControlName="idProducto">
+                            @for (item of ProductoList; track item.id) {
                             <mat-option [value]="item.id">
                                 {{item.nombre}}
                             </mat-option>
@@ -73,21 +23,49 @@
                     </mat-form-field>
                 </div>
 
+                <div class="col" *ngIf="BodegaList">
+                    <mat-form-field class="full-width">
+                        <mat-select placeholder="Seleccione una Bodega" formControlName="idBodega">
+                            @for (item of BodegaList; track item.id) {
+                            <mat-option [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                            }
 
-                <div class="row">
-                    <div class="col">
-                        <mat-label>Estado del producto</mat-label>
-                        <mat-radio-group formControlName="estadoProducto">
-                            <mat-radio-button [value]="true">Nuevo</mat-radio-button>
-                            <mat-radio-button [value]="false">Usado</mat-radio-button>
-                        </mat-radio-group>
-                        @if (errorHandling('estadoProducto')) {
-                        <mat-error>
-                            {{errorHandling('estadoProducto')}}
-                        </mat-error>
-                        }
-                    </div>
+                        </mat-select>
+
+                    </mat-form-field>
                 </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col">
+                    <mat-label>Cantidad Producto</mat-label>
+                    <mat-form-field class="full-width">
+                        <input height="150px" matInput formControlName="cantidad" placeholder="Cantidad de Producto">
+                    </mat-form-field>
+                </div>
+
+                <div class="col">
+                    <mat-label>Cantidad Minima Producto</mat-label>
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="cantidadMinima" placeholder="Cantidad Minima del Producto">
+                        <span style="color: black;" matTextPrefix>&nbsp;</span>
+
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-label>Cantidad Maxima Producto</mat-label>
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="cantidadMaxima" placeholder="Cantidad Maxima del Producto">
+                        <span style="color: black;" matTextPrefix>&nbsp;</span>
+
+                    </mat-form-field>
+                </div>
+
             </div>
 
 

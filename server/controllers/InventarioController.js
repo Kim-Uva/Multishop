@@ -2,16 +2,16 @@ const { PrismaClient, Rol } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 //Get inventarios
- 
+
 module.exports.getInventarios = async (request, response, next) => {
     const inventarios = await prisma.inventario.findMany({
-        include:{
+        include: {
             producto: true,
-            usuarioRegistro:true,
-            usuarioActualizo:true,
-        } 
+            usuarioRegistro: true,
+            usuarioActualizo: true,
+        }
     });
-    
+
     response.json(inventarios);
 }
 
@@ -44,40 +44,45 @@ module.exports.getInventarioByIdBodega = async (request, response, next) => {
 //Create inventario
 module.exports.createInventario = async (request, response, next) => {
     let body = request.body;
+    let cantidad = parseInt(body.cantidad);
+    let cantidadMaxima = parseInt(body.cantidadMinima);
+    let cantidadMinima = parseInt(body.cantidadMaxima);
 
-// condicion para las cantidades 
+    let idUsuarioActualizo = 5;
+    let idUsuarioRegistro = 5;
+    // condicion para las cantidades 
 
-if (body.cantidadMinima > body.cantidadMaxima) {
-    console.log("La cantidad no es válida.");
-}
-if (body.cantidad < body.cantidadMinima || body.cantidad > body.cantidadMaxima) {
-    console.log("La cantidad está fuera del rango permitido.");
+    if (body.cantidadMinima > body.cantidadMaxima) {
+        console.log("La cantidad no es válida.");
+    }
+    if (body.cantidad < body.cantidadMinima || body.cantidad > body.cantidadMaxima) {
+        console.log("La cantidad está fuera del rango permitido.");
 
-}
-else{
+    }
+    else {
 
-    const inventario = await prisma.inventario.create({
-        data: {
-            idBodega: body.idBodega,
-            idProducto: body.idProducto,
-            cantidad: body.cantidad, //Cantidad disponible
-            cantidadMinima: body.cantidadMinima,
-            cantidadMaxima: body.cantidadMaxima,
-            idUsuarioRegistro: body.idUsuarioRegistro,
-            idUsuarioActualizo: body.idUsuarioRegistro,
+        const inventario = await prisma.inventario.create({
+            data: {
+                idBodega: body.idBodega,
+                idProducto: body.idProducto,
+                cantidad: cantidad, //Cantidad disponible
+                cantidadMinima:  cantidadMinima,
+                cantidadMaxima:  cantidadMaxima,
+                idUsuarioRegistro: idUsuarioRegistro,
+                idUsuarioActualizo: idUsuarioActualizo,
 
-        }
-    });
+            }
+        });
 
-    response.json(inventario);
+        response.json(inventario);
     }
 }
 
 //Update inventario
-module.exports.updateInventario = async (request, response, next) => { 
+module.exports.updateInventario = async (request, response, next) => {
 
-    const  idBodega= parseInt(request.params.id); 
-    const  idProducto= parseInt(request.params.id); 
+    const idBodega = parseInt(request.params.id);
+    const idProducto = parseInt(request.params.id);
 
     let inventario = request.body;
 
@@ -87,14 +92,14 @@ module.exports.updateInventario = async (request, response, next) => {
     }
     if (inventario.cantidad < inventario.cantidadMinima || inventario.cantidad > inventario.cantidadMaxima) {
         console.log("La cantidad está fuera del rango permitido.");
-    
+
     }
 
-    
+
     const inventarioActualizado = await prisma.inventario.update({
         where: {
             idBodega: idBodega,
-            idProducto: idProducto, 
+            idProducto: idProducto,
 
         },
         data: {
@@ -103,7 +108,7 @@ module.exports.updateInventario = async (request, response, next) => {
             idUsuarioActualizo: inventario.idUsuarioActualizo,
             cantidad: inventario.cantidad,
             cantidadMinima: inventario.cantidadMinima,
-            cantidadMaxima:inventario.cantidadMaxima,
+            cantidadMaxima: inventario.cantidadMaxima,
         }
     });
 

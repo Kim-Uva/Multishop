@@ -121,24 +121,18 @@ model Inventario {
   //Bodega
   idBodega Int
   bodegas  Bodega @relation(fields: [idBodega], references: [id])
-
   //Producto
   idProducto Int
   producto   Producto @relation(fields: [idProducto], references: [id])
-
   //Usuario
   idUsuarioRegistro Int // Usuario que registra
   usuarioRegistro   Usuario @relation("idUsuarioRegistro", fields: [idUsuarioRegistro], references: [id])
-
   idUsuarioActualizo Int? // Usuario que actualiza
   usuarioActualizo   Usuario? @relation("idUsuarioActualizo", fields: [idUsuarioActualizo], references: [id])
-
   cantidad       Int
   cantidadMinima Int
   cantidadMaxima Int
-
   fechaRegistro DateTime @default(now()) @updatedAt
-
   @@id([idBodega, idProducto])
 }
 

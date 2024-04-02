@@ -60,7 +60,7 @@ export class InventarioTablaComponent implements AfterViewInit {
     });
   }
   crearProducto() {
-    this.router.navigate(['/producto/create'], {
+    this.router.navigate(['/inventario/form'], {
       relativeTo: this.activeRouter,
     });
   }

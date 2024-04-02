@@ -13,3 +13,12 @@
     margin-bottom: 10px;
     color: white;
 }
+
+mat-card-header{
+    font-size: 25pt;
+    margin: 0 auto;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+  }
+

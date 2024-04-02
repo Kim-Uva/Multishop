@@ -32,18 +32,19 @@ module.exports.getById = async (request, response, next) => {
 //Crear Producto
 module.exports.create = async (request, response, next) => {
   let body = request.body;
-
+  let stock = parseInt(body.stock); 
 
 
   const nuevoProducto = await prisma.producto.create({
     data: {
+     
       nombre: body.nombre,
       descripcion: body.descripcion,
-      stock: 0,
       precio: body.precio,
+      stock: stock,
       estadoProducto: body.estadoProducto,
-      idCategoria: body.idCategoria,
-      idSubCategoria: body.idSubCategoria,
+      idCategoria: body.categoria,
+      idSubCategoria: body.subCategoria,
 
       // invProductos:{
       //   create:{

@@ -163,7 +163,6 @@ model DetalleCompra {
   precio             Decimal           @db.Decimal(10, 2)
   producto           Producto          @relation(fields: [idProducto], references: [id])
   encabezadoCompra   EncabezadoCompra? @relation(fields: [idEncabezadoCompra], references: [id])
-
 }
 
 model EncabezadoCompra {
@@ -209,7 +208,6 @@ model Traslado {
   usuario       Usuario? @relation(fields: [idUsuario], references: [id])
   producto      Producto @relation(fields: [idProducto], references: [id])
 }
-
 
 model Historial {
   id                Int      @id @default(autoincrement())

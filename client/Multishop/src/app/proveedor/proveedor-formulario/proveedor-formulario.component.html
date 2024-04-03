@@ -51,13 +51,24 @@
             <mat-label for="idProvincia">Provincia</mat-label>
             
             <mat-form-field class="full-width">
+              
+              <mat-select formControlName="ubicacion" (change)="onProvinciaChange()">
+                <mat-option *ngFor="let provincia of provincias" [value]="provincia">{{provincia}} </mat-option>
+              </mat-select>
+              
+        </mat-form-field>
 
-            <mat-select (change)="onProvinciaChange()">
-              <mat-option *ngFor="let provincia in listaProvincias()" [value]="provincia.id">{{ provincia.nombre }}{{ provincia.nombre }}</mat-option>
-            </mat-select>
-            <div *ngIf="submitted && proveedorForm.get('idProvincia').errors" class="text-danger">
-              <span *ngIf="proveedorForm.get('idProvincia')">La provincia es requerida</span>
-            </div>
+          </div>
+
+          <div class="row">
+            <mat-label for="idCanton">Canton</mat-label>
+            
+            <mat-form-field class="full-width">
+              
+              <mat-select formControlName="ubicacion" (change)="onProvinciaChange()">
+                <mat-option *ngFor="let canton of cantones" [value]="canton.idCanton">{{canton}} </mat-option>
+              </mat-select>
+              
         </mat-form-field>
 
           </div>

@@ -7,6 +7,7 @@ import { ProductoTablaComponent } from '../producto/components/producto-tabla/pr
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inventario', component: InventarioTablaComponent },
+
 ];
 
 @NgModule({

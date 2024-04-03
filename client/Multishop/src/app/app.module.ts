@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ReporteGraficoComponent } from './reporte-grafico/reporte-grafico.component';
 import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
 import { InventarioModule } from './inventario/inventario.module';
+import { ProveedorModule } from './proveedor/proveedor.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { InventarioModule } from './inventario/inventario.module';
     ReporteGraficoModule,
     InventarioModule,
     ProductoModule,
+    ProveedorModule,
     AppRoutingModule,
     //Siempre ir al final
 

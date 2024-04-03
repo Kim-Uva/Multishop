@@ -1,0 +1,21 @@
+.body{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 70px;
+    
+}
+
+.create{
+    background-color: #1b9160;
+    margin-bottom: 10px;
+    color: white;
+}
+
+mat-card-header{
+    font-size: 25pt;
+    margin: 0 auto;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+  }
+

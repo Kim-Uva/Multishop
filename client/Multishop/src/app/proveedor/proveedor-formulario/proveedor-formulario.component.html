@@ -1,0 +1,75 @@
+<div class="body">
+    <form [formGroup]="proveedorForm" (ngSubmit)="submit()" novalidate>
+      <input type="hidden" formControlName="id" />
+      <mat-card-header>
+        <mat-card-title>{{titleForm}} Proveedor</mat-card-title>
+      </mat-card-header>
+      <mat-card class="shipping-card"  >
+       
+        <mat-card-content>
+          <div class="row">
+            <div class="col">
+              <mat-label>Identificación</mat-label>
+    
+              <mat-form-field class="full-width">
+                <input matInput formControlName="identificacion" placeholder="0000000000">
+              </mat-form-field>
+            </div>
+          </div>
+    
+    
+    
+          <div class="row">
+            <div class="col">
+              <mat-label>Nombre del Proveedor</mat-label>
+    
+              <mat-form-field class="full-width">
+                <input  matInput formControlName="nombreProveedor">
+              </mat-form-field>
+            </div>
+    
+            <div class="col">
+              <mat-label>CorreoElectronico</mat-label>
+    
+              <mat-form-field class="full-width">
+    
+                <input matInput formControlName="correoElectronico" placeholder="proveedor@correo.com">
+    
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-label>Número de teléfono</mat-label>
+    
+              <mat-form-field class="full-width">
+                <input matInput formControlName="telefono" >
+              </mat-form-field>
+            </div>
+          </div>
+          
+    
+          <div class="row">
+            <mat-label for="idProvincia">Provincia</mat-label>
+            
+            <mat-form-field class="full-width">
+
+            <mat-select (change)="onProvinciaChange()">
+              <mat-option *ngFor="let provincia in listaProvincias()" [value]="provincia.id">{{ provincia.nombre }}{{ provincia.nombre }}</mat-option>
+            </mat-select>
+            <div *ngIf="submitted && proveedorForm.get('idProvincia').errors" class="text-danger">
+              <span *ngIf="proveedorForm.get('idProvincia')">La provincia es requerida</span>
+            </div>
+        </mat-form-field>
+
+          </div>
+    
+    
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" (click)="onBack()"><mat-icon>arrow_back</mat-icon>Atras</button>
+            <button mat-raised-button style="background-color: cadetblue; color: bisque;" (click)="onReset()"><mat-icon>cleaning_services</mat-icon> Limpiar Campos</button>
+            <button mat-raised-button style="background-color: green; color: bisque;" type="submit"><mat-icon>save</mat-icon>Guardar</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </form></div>

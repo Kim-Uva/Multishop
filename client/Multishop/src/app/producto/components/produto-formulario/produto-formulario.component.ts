@@ -153,10 +153,7 @@ generarSKU(): string {
       stock: [0, Validators.required],
       categoria: [null, Validators.required],
       subCategoria: [null, Validators.required],
-      provincia: [null, Validators.required], // Agrega estos campos si no los tienes
-      canton: [null, Validators.required],    // Agrega estos campos si no los tienes
-      distrito: [null, Validators.required],   // Agrega estos campos si no los tienes
-      direccionExacta: [null]  
+    
     })
   }
 

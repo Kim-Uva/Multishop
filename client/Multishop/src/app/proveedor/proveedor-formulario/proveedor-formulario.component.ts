@@ -17,10 +17,11 @@ export class ProveedorFormularioComponent implements OnInit {
 
   titleForm: string = 'Crear';
   provincias: any[] = [];
-  cantones: any[] = [];
+  cantones: any;
   distritos: any[] = [];
   //Producto a actualizar
   proveedorInfo: any;
+  ubicacionInfo: any;
   //Respuesta del API crear/modificar
   respProveedor: any;
   //Sí es submit
@@ -28,6 +29,7 @@ export class ProveedorFormularioComponent implements OnInit {
   //Nombre del formulario
   proveedorForm: FormGroup;
   idProveedor: number = 0;
+  idUbicacion: number = 0;
   //Sí es crear
   isCreate: boolean = true;
 
@@ -46,6 +48,7 @@ this.listaProvincias()
   }
 
   listaProvincias() {
+    
     this.ubicacion.getProvincias().subscribe({
       next: provincias => {
         // Verifica si las provincias son un objeto y conviértelas en una matriz si es necesario
@@ -60,14 +63,24 @@ this.listaProvincias()
         console.error('Error al obtener las provincias:', error);
       }
     });
+
   }
-  listaCantones(event: Event) {
-    const idProvincia = (event.target as HTMLSelectElement).value;
-    if (idProvincia) {
-      this.ubicacion.getCantonByPronvicia(Number(idProvincia)).subscribe(cantones => {
-        this.cantones = cantones;
-      });
-    }
+
+  listaCantones(idProvincia: number) {
+    this.ubicacion.getCantonByPronvicia(idProvincia).subscribe({
+      next: cantones => {
+        // Verifica si los cantones son un objeto y conviértelos en una matriz si es necesario
+        if (typeof cantones === 'object' && !Array.isArray(cantones)) {
+          this.cantones = Object.keys(cantones).map(key => cantones[key]);
+        } else {
+          this.cantones = cantones;
+        }
+      },
+      error: error => {
+        // Maneja cualquier error que ocurra durante la solicitud HTTP
+        console.error('Error al obtener los cantones:', error);
+      }
+    });
   }
 
   listaDistritos(idProvincia: number, idCanton: number) {
@@ -85,6 +98,7 @@ this.listaProvincias()
 
   ngOnInit(): void {
     console.log('entro')
+    this.listaProvincias();
 
     this.activeRouter.params.subscribe((params: Params) => {
       this.idProveedor = params['id']
@@ -92,7 +106,7 @@ this.listaProvincias()
       if (this.idProveedor != undefined) {
         this.isCreate = false
         this.titleForm = 'Actualizar'
-        //Obtener producto a actualizar del API
+        //Obtener proveedor a actualizar del API
         this.gService
           .get('proveedor', this.idProveedor)
           .pipe(takeUntil(this.destroy$))
@@ -107,8 +121,9 @@ this.listaProvincias()
 
               correoElectronico: this.proveedorInfo.correoElectronico,
               telefono: this.proveedorInfo.telefono,
-              ubicacion: this.proveedorInfo.idUbicacion
+              ubicacion: this.proveedorInfo.idUbicacion,
             
+  
    
              
             });
@@ -116,12 +131,12 @@ this.listaProvincias()
 
           })
 
+
      
       }
       
 
     })
-    this.listaProvincias();
     this.formularioReactive();
 
 
@@ -153,10 +168,11 @@ this.listaProvincias()
   }
   onProvinciaChange(): void {
     const provinciaId = this.proveedorForm.get('ubicacion').value;
-    this.listaCantones(provinciaId);
+    this.cantones = this.listaCantones(provinciaId);
     this.proveedorForm.get('idCanton').setValue(null);
     this.proveedorForm.get('idDistrito').setValue(null);
 }
+
   submit(): void {
     //Establecer submit verdadero
     this.submitted = true;
@@ -175,7 +191,7 @@ this.listaProvincias()
 
     if (this.isCreate) {
       //Accion API create enviando toda la informacion del formulario
-      this.gService.create('/proveedor', { ...formValue, ubicacion: ubicacionData })
+      this.gService.create('/proveedor', this.proveedorForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           //Obtener respuesta
@@ -186,7 +202,7 @@ this.listaProvincias()
     } else {
       //Accion API actualizar enviando toda la informacion del formulario
       this.gService
-        .update('/proveedor',  { ...formValue, ubicacion: ubicacionData })
+        .update('/proveedor', this.proveedorForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           //Obtener respuesta

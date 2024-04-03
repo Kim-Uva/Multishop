@@ -45,7 +45,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
                 <td mat-cell *matCellDef="let row">
                     <button class="edit" mat-mini-fab matTooltip="Actualizar Producto" aria-label="Actualizar Producto"
-                        (click)="actualizarProducto(row.id)">
+                        (click)="actualizarProducto(row.idBodega,row.idProducto)">
                         <mat-icon class="mat-18">draw</mat-icon>
                     </button>
                 </td>

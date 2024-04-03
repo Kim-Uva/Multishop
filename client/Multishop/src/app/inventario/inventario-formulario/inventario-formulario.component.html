@@ -1,5 +1,5 @@
 <form [formGroup]="InventarioForm" (ngSubmit)="submit()" novalidate>
-    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="idBodega" />
     <mat-card class="shipping-card">
         <mat-card-header>
             <mat-card-title>{{titleForm}} Inventario</mat-card-title>
@@ -43,9 +43,11 @@
             <div class="row">
 
                 <div class="col">
-                    <mat-label>Cantidad Producto</mat-label>
+                    <mat-label>Cantidad del Producto</mat-label>
                     <mat-form-field class="full-width">
-                        <input height="150px" matInput formControlName="cantidad" placeholder="Cantidad de Producto">
+                        <input matInput formControlName="cantidad" placeholder="Cantidad del Producto">
+                        <span style="color: black;" matTextPrefix>&nbsp;</span>
+
                     </mat-form-field>
                 </div>
 

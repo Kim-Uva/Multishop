@@ -54,8 +54,13 @@ export class InventarioTablaComponent implements AfterViewInit {
       })
   }
 
-  actualizarProducto(id: number) {
-    this.router.navigate(['/producto/update', id], {
+  actualizarProducto(idBodega: number, idProducto: number) {
+    const objetoInventario = {
+      idBodega: idBodega,
+      idProducto: idProducto
+    };
+    localStorage.setItem('objetoInventario', JSON.stringify(objetoInventario));
+    this.router.navigate(['/inventario/update/', idBodega], {
       relativeTo: this.activeRouter,
     });
   }

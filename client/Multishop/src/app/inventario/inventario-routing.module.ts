@@ -8,6 +8,10 @@ const routes: Routes = [
     path: 'inventario',
     children: [
       {
+        path: 'update/:id',
+        component: InventarioFormularioComponent,
+      },
+      {
         path: 'tabla',
         component: InventarioTablaComponent,
       },

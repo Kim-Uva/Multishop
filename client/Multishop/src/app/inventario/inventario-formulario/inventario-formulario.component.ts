@@ -48,7 +48,7 @@ export class InventarioFormularioComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('entro')
-
+    const objetoInventario = JSON.parse(localStorage.getItem('objetoInventario'));
     this.ProductList()
     this.BodegList()
     this.activeRouter.params.subscribe((params: Params) => {
@@ -57,26 +57,21 @@ export class InventarioFormularioComponent implements OnInit {
       if (this.idProducto != undefined) {
         this.isCreate = false
         this.titleForm = 'Actualizar'
+
         //Obtener producto a actualizar del API
         this.gService
-          .get('producto', this.idProducto)
+          .create('/inventario/getInventarioByIdBodegaIdProducto', objetoInventario)
           .pipe(takeUntil(this.destroy$))
-          .subscribe((data) => {
+          .subscribe((data: any) => {
             console.log(data)
             this.inventario = data
             //Establecer valores a precargar en el formulario
             this.InventarioForm.setValue({
               idProducto: this.inventario.idProducto,
               idBodega: this.inventario.idBodega,
-              id: this.inventario.id,
-              idUsuarioRegistro: this.inventario.idUsuarioRegistro,
-              idUsuarioActulizo: this.inventario.usuarioActualizo,
-
               cantidad: this.inventario.cantidad,
               cantidadMinima: this.inventario.cantidadMinima,
               cantidadMaxima: this.inventario.cantidadMaxima,
-
-
             });
 
 
@@ -121,9 +116,7 @@ export class InventarioFormularioComponent implements OnInit {
 
       idProducto: [null, Validators.required],
       idBodega: [null, Validators.required],
-      id: [null, null],
-      idUsuarioRegistro: [null, null],
-      idUsuarioActualizo: [null, null],
+
 
       cantidad: [null,
         Validators.compose([
@@ -153,17 +146,17 @@ export class InventarioFormularioComponent implements OnInit {
     let canMax = this.InventarioForm.get('cantidadMaxima').value;
 
     if (can > canMax && can < canMin) {
-      this.toastr.error("Revisar las celdas de cantidad producto, cantidad Maxima y minima...");
+      this.toastr.error("Revisar las celdas de cantidad producto, cantidad Maxima y minima.");
       return;
 
     }
-    if ((canMin >= canMax && canMax <= canMin) && (can > canMax && can < canMin)) {
+    if ((canMin >= canMax && canMax <= canMin)) {
       this.toastr.error("Revisar las celdas de cantidad producto, cantidad Maxima y minima");
       return;
 
     }
-    
-    
+
+
     if (this.InventarioForm.invalid) {
       this.toastr.error("Faltan Datos por llenar");
     }
@@ -174,7 +167,6 @@ export class InventarioFormularioComponent implements OnInit {
 
     let idProductoForm = this.InventarioForm.get('idProducto').value;
     this.InventarioForm.patchValue({ idProducto: idProductoForm });
-
 
     if (this.isCreate) {
       //Accion API create enviando toda la informacion del formulario
@@ -190,17 +182,14 @@ export class InventarioFormularioComponent implements OnInit {
     } else {
       //Accion API actualizar enviando toda la informacion del formulario
       this.gService
-        .update('/inventario', this.InventarioForm.value)
+        .create('/inventario/updateInventario', this.InventarioForm.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: any) => {
           //Obtener respuesta
           this.respProducto = data;
-
           this.router.navigate(['/inventario']);
-
           this.toastr.success("Se ha editado el Inventario correctamente");
         });
-
     }
   }
 

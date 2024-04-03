@@ -40,6 +40,21 @@ module.exports.getInventarioByIdBodega = async (request, response, next) => {
 
     response.json(inventario);
 }
+module.exports.getInventarioByIdBodegaIdProducto = async (request, response, next) => {
+
+    const { idBodega, idProducto } = request.body;
+
+    const inventario = await prisma.inventario.findUnique({
+        where: {
+            idBodega_idProducto: {
+                idBodega: idBodega,
+                idProducto: idProducto
+            }
+        }
+    });
+
+    response.json(inventario);
+}
 
 //Create inventario
 module.exports.createInventario = async (request, response, next) => {
@@ -66,8 +81,8 @@ module.exports.createInventario = async (request, response, next) => {
                 idBodega: body.idBodega,
                 idProducto: body.idProducto,
                 cantidad: cantidad, //Cantidad disponible
-                cantidadMinima:  cantidadMinima,
-                cantidadMaxima:  cantidadMaxima,
+                cantidadMinima: cantidadMinima,
+                cantidadMaxima: cantidadMaxima,
                 idUsuarioRegistro: idUsuarioRegistro,
                 idUsuarioActualizo: idUsuarioActualizo,
 
@@ -80,35 +95,28 @@ module.exports.createInventario = async (request, response, next) => {
 
 //Update inventario
 module.exports.updateInventario = async (request, response, next) => {
-
-    const idBodega = parseInt(request.params.id);
-    const idProducto = parseInt(request.params.id);
-
     let inventario = request.body;
+    let cantidad = parseInt(inventario.cantidad)
+    let cantidadMinima = parseInt(inventario.cantidadMinima);
+    let cantidadMaxima = parseInt(inventario.cantidadMaxima);
 
 
-    if (inventario.cantidadMinima > inventario.cantidadMaxima) {
-        console.log("La cantidad no es válida.");
-    }
-    if (inventario.cantidad < inventario.cantidadMinima || inventario.cantidad > inventario.cantidadMaxima) {
-        console.log("La cantidad está fuera del rango permitido.");
-
-    }
 
 
     const inventarioActualizado = await prisma.inventario.update({
         where: {
-            idBodega: idBodega,
-            idProducto: idProducto,
-
+            idBodega_idProducto: {
+                idBodega: inventario.idBodega,
+                idProducto: inventario.idProducto
+            }
         },
         data: {
-            idBodega: inventario.idBodega,
-            idProducto: inventario.idProducto,
-            idUsuarioActualizo: inventario.idUsuarioActualizo,
-            cantidad: inventario.cantidad,
-            cantidadMinima: inventario.cantidadMinima,
-            cantidadMaxima: inventario.cantidadMaxima,
+
+            idUsuarioActualizo: 5,
+            idUsuarioRegistro: 5,
+            cantidad: cantidad,
+            cantidadMinima: cantidadMinima,
+            cantidadMaxima: cantidadMaxima,
         }
     });
 

@@ -1,9 +1,9 @@
 mat-card {
-    width: 90%;
+    width: 50%;
    border-radius: 10px;
    border: #126ba7 4px solid;
     margin: 30px auto ;
-    text-align: end;
+    text-align: start;
     padding: 10px;
     background-color:#00243b73 ;
     color: #ECEFF1;

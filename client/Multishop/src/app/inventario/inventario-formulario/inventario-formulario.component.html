@@ -1,3 +1,4 @@
+<div class="body">
 <form [formGroup]="InventarioForm" (ngSubmit)="submit()" novalidate>
     <input type="hidden" formControlName="idBodega" />
     <mat-card class="shipping-card">
@@ -74,10 +75,13 @@
         </mat-card-content>
         <mat-card-actions>
             <div class="example-button-row">
-                <button mat-raised-button color="warn" (click)="onReset()">Reset</button>
-                <button mat-raised-button color="primary" (click)="onBack()">Regresar</button>
-                <button mat-raised-button color="accent" type="submit">Guardar</button>
+              <button mat-raised-button color="primary" (click)="onBack()"><mat-icon>arrow_back</mat-icon>Atras</button>
+              <button mat-raised-button style="background-color: cadetblue; color: bisque;"
+                (click)="onReset()"><mat-icon>cleaning_services</mat-icon> Limpiar Campos</button>
+              <button mat-raised-button style="background-color: green; color: bisque;"
+                type="submit"><mat-icon>save</mat-icon>Guardar</button>
             </div>
-        </mat-card-actions>
+          </mat-card-actions>
     </mat-card>
 </form>
+</div>

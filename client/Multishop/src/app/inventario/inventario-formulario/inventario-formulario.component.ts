@@ -215,7 +215,7 @@ export class InventarioFormularioComponent implements OnInit {
     this.InventarioForm.reset();
   }
   onBack() {
-    this.router.navigate(['/producto/tabla']);
+    this.router.navigate(['/inventario/tabla']);
   }
   ngOnDestroy() {
     this.destroy$.next(true);

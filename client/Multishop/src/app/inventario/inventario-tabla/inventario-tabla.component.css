@@ -1,15 +1,24 @@
-.body{
+.body {
     width: 80%;
     margin: 0 auto;
     margin-top: 70px;
-    
-}
-.edit{
-    background-color: #cc9d1d;
+
 }
 
-.create{
-    background-color: #11ad6c;
+.edit {
+    background-color: #1d7dcc;
+}
+
+.create {
+    background-color: #11ad14;
     margin-bottom: 10px;
     color: white;
+}
+
+mat-card-header {
+    font-size: 25pt;
+    margin: 0 auto;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
 }

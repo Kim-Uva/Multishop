@@ -33,7 +33,7 @@ export class ProveedorFormularioComponent implements OnInit {
   //Sí es crear
   isCreate: boolean = true;
 
-  isDescripcionDisabled: boolean = true; 
+  isDescripcionDisabled: boolean = true;
 
 
   constructor(
@@ -44,11 +44,11 @@ export class ProveedorFormularioComponent implements OnInit {
     private ubicacion: UbicacionesService
   ) {
 
-this.listaProvincias()
+    this.listaProvincias()
   }
 
   listaProvincias() {
-    
+
     this.ubicacion.getProvincias().subscribe({
       next: provincias => {
         // Verifica si las provincias son un objeto y conviértelas en una matriz si es necesario
@@ -58,7 +58,7 @@ this.listaProvincias()
           this.provincias = provincias;
         }
       },
-      
+
       error: error => {
         console.error('Error al obtener las provincias:', error);
       }
@@ -117,24 +117,19 @@ this.listaProvincias()
             this.proveedorForm.setValue({
               id: this.proveedorInfo.id,
               identificacion: this.proveedorInfo.identificacion,
-              nombreProveedor:this.proveedorInfo.nombreProveedor,
-
+              nombreProveedor: this.proveedorInfo.nombreProveedor,
               correoElectronico: this.proveedorInfo.correoElectronico,
               telefono: this.proveedorInfo.telefono,
               ubicacion: this.proveedorInfo.idUbicacion,
-            
-  
-   
-             
             });
 
 
           })
 
 
-     
+
       }
-      
+
 
     })
     this.formularioReactive();
@@ -154,7 +149,7 @@ this.listaProvincias()
       ],
       nombreProveedor: [null, Validators.required],
       ubicacion: [null, Validators.required],
-      correoElectronico: [null, Validators.required], 
+      correoElectronico: [null, Validators.required],
 
       telefono: [null,
         Validators.compose([
@@ -163,7 +158,7 @@ this.listaProvincias()
       ],
 
 
-    
+
     })
   }
   onProvinciaChange(): void {
@@ -171,23 +166,20 @@ this.listaProvincias()
     this.cantones = this.listaCantones(provinciaId);
     this.proveedorForm.get('idCanton').setValue(null);
     this.proveedorForm.get('idDistrito').setValue(null);
-}
+  }
 
   submit(): void {
     //Establecer submit verdadero
     this.submitted = true;
     //Verificar validación
-    if (this.proveedorForm.invalid) {
-      return;
-    }
     
-  const formValue = this.proveedorForm.value;
-  const ubicacionData = {
-    idProvincia: formValue.provincia,
-    idCanton: formValue.canton,
-    idDistrito: formValue.distrito,
-    direccionExacta: formValue.direccionExacta
-  };
+    const formValue = this.proveedorForm.value;
+    //const ubicacionData = {
+    //  idProvincia: formValue.provincia,
+     // idCanton: formValue.canton,
+    //  idDistrito: formValue.distrito,
+    //  direccionExacta: formValue.direccionExacta
+   // };
 
     if (this.isCreate) {
       //Accion API create enviando toda la informacion del formulario
@@ -236,7 +228,7 @@ this.listaProvincias()
     this.proveedorForm.reset();
   }
   onBack() {
-    this.router.navigate(['/producto/tabla']);
+    this.router.navigate(['/proveedor/tabla']);
   }
   ngOnDestroy() {
     this.destroy$.next(true);

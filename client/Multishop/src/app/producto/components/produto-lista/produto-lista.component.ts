@@ -5,6 +5,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ImpresionService } from '../../../share/services/impresion.service';
+import { NotificacionServiceService, TipoMessage } from '../../../share/services/notification-service.service';
+import { CartService } from '../../../share/services/cart.service';
 
 @Component({
   selector: 'app-produto-lista',
@@ -19,7 +21,11 @@ export class ProdutoListaComponent implements OnInit {
   productos: any
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private httpRequest: HttpRequestService, private router: Router, private ImpresionService: ImpresionService) {
+  constructor(private httpRequest: HttpRequestService, 
+    private router: Router, 
+    private ImpresionService: ImpresionService,
+  private notificacion: NotificacionServiceService,
+private cartService: CartService ) {
   }
 
   ngOnInit(): void {
@@ -53,6 +59,22 @@ export class ProdutoListaComponent implements OnInit {
 
     this.router.navigate(['producto', id])
 
+  }
+
+  comprar(id: number) {
+    this.httpRequest
+      .get('producto/', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Agregar videojuego obtenido del API al carrito
+        this.cartService.addToCart(data);
+        //Notificar al usuario
+        this.notificacion.mensaje(
+          'producto',
+          'Producto: ' + data.nombre + ' agregado a la orden',
+          TipoMessage.success
+        );
+      });
   }
   onImprimir() {
     const encabezado = ["Id Producto", "Nombre", "Descripcion", "Precio", "Categoria", "SubCategoria"]

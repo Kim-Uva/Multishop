@@ -54,16 +54,20 @@ export class DetalleTablaComponent implements OnInit {
       let itemsCarrito = this.cartService.getItems;
       //Armar la estructura de la tabla intermedia
       //[{'videojuegoId':valor, 'cantidad':valor}]
+      
       let detalles = itemsCarrito.map((x) => ({
         ['idProducto']: x.idItem,
         ['cantidad']: x.cantidad,
+        ['precio']: x.precio,
+
       }));
       //Datos para el API
       let infoOrden = {
         fechaOrden: new Date(this.fecha),
         detalleCompra: detalles,
       };
-      this.gService.create('orden', infoOrden).subscribe((respuesta: any) => {
+      
+      this.gService.create('/orden', infoOrden).subscribe((respuesta: any) => {
         this.noti.mensaje(
           'Orden',
           'Orden registrada #' + respuesta.id,

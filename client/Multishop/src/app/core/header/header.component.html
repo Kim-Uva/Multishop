@@ -18,8 +18,8 @@
     <a mat-button [matMenuTriggerFor]="drop" routerLinkActive="link-active">
       <mat-icon> settings</mat-icon>Mantenimientos
     </a>
-    <a mat-button [routerLink]="['/inicio']" routerLinkActive="link-active">
-      <mat-icon matBadge="0" matBadgeColor="accent"> shopping_cart</mat-icon>Ordenes de compra
+    <a mat-button [routerLink]="['/orden']" routerLinkActive="link-active"matBadgeColor="accent" [matBadge]="qtyItems.toString()" >
+      <mat-icon  matBadgeColor="accent"> shopping_cart</mat-icon>Ordenes de compra
     </a>
     <a mat-button [routerLink]="['/login']" routerLinkActive="link-active">
       <mat-icon> person</mat-icon>Iniciar Sesión

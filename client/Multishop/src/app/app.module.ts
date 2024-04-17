@@ -14,6 +14,7 @@ import { ReporteGraficoComponent } from './reporte-grafico/reporte-grafico.compo
 import { ReporteGraficoModule } from './reporte-grafico/reporte-grafico.module';
 import { InventarioModule } from './inventario/inventario.module';
 import { ProveedorModule } from './proveedor/proveedor.module';
+import { OrdenCompraModule } from './orden-compra/orden-compra.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ProveedorModule } from './proveedor/proveedor.module';
     HomeModule,
     ReporteGraficoModule,
     InventarioModule,
+    OrdenCompraModule,
     ProductoModule,
     ProveedorModule,
     AppRoutingModule,

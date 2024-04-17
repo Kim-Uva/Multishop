@@ -6,6 +6,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotificacionServiceService, TipoMessage } from '../../../share/services/notification-service.service';
+import { CartService } from '../../../share/services/cart.service';
 
 @Component({
   selector: 'app-producto-tabla',
@@ -30,6 +32,10 @@ export class ProductoTablaComponent implements AfterViewInit {
    private router:Router,
    private activeRouter: ActivatedRoute,
    private gService: HttpRequestService,
+   private cartService: CartService,
+   private notificacion: NotificacionServiceService
+
+
   ) {
  
   }
@@ -63,5 +69,19 @@ export class ProductoTablaComponent implements AfterViewInit {
     });
 }
 
-
+comprarProducto(id: number) {
+  this.gService
+    .get('producto', id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: any) => {
+      //Agregar videojuego obtenido del API al carrito
+      this.cartService.addToCart(data);
+      //Notificar al usuario
+      this.notificacion.mensaje(
+        'Orden',
+        'Producto: ' + data.nombre + ' agregado a la orden',
+        TipoMessage.success
+      );
+    });
+}
 }

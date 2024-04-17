@@ -1,0 +1,26 @@
+.body {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 70px;
+}
+
+.footer-row {
+  font-weight: bold;
+}
+.box {
+  margin: 2em 2em;
+  padding: 2em 2em;
+}
+.header {
+  background-color: #11ad6c;
+  color: white;
+  font-weight: 800;
+}
+.footer-row {
+  background-color: #19a10d;
+  color: white;
+}
+.footer-total {
+  font-size: 1.2em;
+  font-weight: bolder;
+}

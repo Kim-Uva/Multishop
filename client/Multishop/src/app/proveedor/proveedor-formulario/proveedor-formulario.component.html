@@ -2,87 +2,122 @@
   <form [formGroup]="proveedorForm" (ngSubmit)="submit()" novalidate>
     <input type="hidden" formControlName="id" />
     <mat-card-header>
-      <mat-card-title>{{titleForm}} Proveedor</mat-card-title>
+      <mat-card-title>{{ titleForm }} Proveedor</mat-card-title>
     </mat-card-header>
     <mat-card class="shipping-card">
-
       <mat-card-content>
         <div class="row">
           <div class="col">
-            <mat-label>Identificación</mat-label>
-
             <mat-form-field class="full-width">
-              <input matInput formControlName="identificacion" placeholder="0000000000">
+              <mat-label>Identificación</mat-label>
+              <input
+                matInput
+                formControlName="identificacion"
+                placeholder="0000000000"
+              />
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Nombre del Proveedor</mat-label>
+              <input matInput formControlName="nombreProveedor" />
+            </mat-form-field>
+          </div>
 
-
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Correo Electronico</mat-label>
+              <input
+                matInput
+                formControlName="correoElectronico"
+                placeholder="proveedor@correo.com"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Número de teléfono</mat-label>
+              <input matInput formControlName="telefono" />
+            </mat-form-field>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col">
-            <mat-label>Nombre del Proveedor</mat-label>
-
             <mat-form-field class="full-width">
-              <input matInput formControlName="nombreProveedor">
+              <mat-label>Provincia</mat-label>
+              <mat-select
+                formControlName="idProvincia"
+                (selectionChange)="listaCantones()"
+              >
+                <ng-container *ngIf="provincias">
+                  <mat-option
+                    *ngFor="let provincia of provincias"
+                    [value]="provincia.id"
+                    >{{ provincia.nombre }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
             </mat-form-field>
           </div>
-
-
           <div class="col">
-            <mat-label>Correo Electronico</mat-label>
-
             <mat-form-field class="full-width">
-
-              <input matInput formControlName="correoElectronico" placeholder="proveedor@correo.com">
-
+              <mat-label>Canton</mat-label>
+              <mat-select
+                formControlName="idCanton"
+                (selectionChange)="listaDistritos()"
+              >
+                <ng-container *ngIf="cantones">
+                  <mat-option
+                    *ngFor="let canton of cantones"
+                    [value]="canton.id"
+                    >{{ canton.nombre }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="col">
-            <mat-label>Número de teléfono</mat-label>
-
             <mat-form-field class="full-width">
-              <input matInput formControlName="telefono">
+              <mat-label>Distrito</mat-label>
+              <mat-select formControlName="idDistrito">
+                <ng-container *ngIf="distritos">
+                  <mat-option
+                    *ngFor="let distrito of distritos"
+                    [value]="distrito.id"
+                    >{{ distrito.nombre }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
-
-
-        <div class="row">
-          <mat-label for="idProvincia">Provincia</mat-label>
-
-          <mat-form-field class="full-width">
-
-            <mat-select formControlName="ubicacion" (change)="onProvinciaChange()">
-              <mat-option *ngFor="let provincia of provincias" [value]="provincia">{{provincia}} </mat-option>
-            </mat-select>
-
-          </mat-form-field>
-
-        </div>
-
-        <div class="row">
-          <mat-label for="idCanton">Canton</mat-label>
-
-          <mat-form-field class="full-width">
-
-            <mat-select formControlName="ubicacion" (change)="onProvinciaChange()">
-              <mat-option *ngFor="let canton of cantones" [value]="canton.idCanton">{{canton}} </mat-option>
-            </mat-select>
-
-          </mat-form-field>
-
-        </div>
-
-
+        <mat-form-field class="full-width">
+          <mat-label>Dirección Exacta</mat-label>
+          <textarea matInput formControlName="direccionExacta"></textarea>
+        </mat-form-field>
       </mat-card-content>
       <mat-card-actions>
         <div class="example-button-row">
-          <button mat-raised-button color="primary" (click)="onBack()"><mat-icon>arrow_back</mat-icon>Atras</button>
-          <button mat-raised-button style="background-color: cadetblue; color: bisque;"
-            (click)="onReset()"><mat-icon>cleaning_services</mat-icon> Limpiar Campos</button>
-          <button mat-raised-button style="background-color: green; color: bisque;"
-            type="submit"><mat-icon>save</mat-icon>Guardar</button>
+          <button mat-raised-button color="primary" (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon>Atras
+          </button>
+          <button
+            mat-raised-button
+            style="background-color: cadetblue; color: bisque"
+            (click)="onReset()"
+          >
+            <mat-icon>cleaning_services</mat-icon> Limpiar Campos
+          </button>
+          <button
+            mat-raised-button
+            style="background-color: green; color: bisque"
+            type="submit"
+          >
+            <mat-icon>save</mat-icon>Guardar
+          </button>
         </div>
       </mat-card-actions>
     </mat-card>

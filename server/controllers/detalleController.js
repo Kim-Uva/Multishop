@@ -25,20 +25,20 @@ module.exports.createDetalle = async (request, response, next) => {
   let body = request.body;
 
   
-  const calcPrecio = await prisma.producto.findUnique({
-    where: {
-      id: body.idProducto,
-    },
-  });
+  // const calcPrecio = await prisma.producto.findUnique({
+  //   where: {
+  //     id: body.idProducto,
+  //   },
+  // });
 
-  let precioTotal = calcPrecio.precio * body.cantidad;
+  // let precioTotal = calcPrecio.precio * body.cantidad;
 
   const nuevoDetalle = await prisma.detalleCompra.create({
     data: {
       
-      idProducto: body.idProducto,
+      idProducto: body.idProducto, 
       cantidad: body.cantidad, 
-      precio: precioTotal,
+      precio: body.precioTotal,
     },
   });
   response.json(nuevoDetalle);
@@ -49,7 +49,7 @@ module.exports.createDetalle = async (request, response, next) => {
 module.exports.updateDetalle = async (request, response, next) => {
   try {
       let detalle = request.body;
-      let idDetalle = parseInt(request.params.id);
+      let idDetalle = parseInt(request.params.id); 
 
       const encontDetalle = await prisma.detalleCompra.findUnique({
         where: {
